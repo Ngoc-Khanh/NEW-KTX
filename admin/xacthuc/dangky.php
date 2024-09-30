@@ -160,7 +160,7 @@
                     </form>
                     
                     <div class="text-center mt-5 text-lg fs-4">
-                        <p class='text-gray-600'>Đã có tài khoản? <a href="dangnhap.php" class="font-bold">Đăng ký</a>.</p>
+                        <p class='text-gray-600'>Đã có tài khoản? <a href="dangnhap.php" class="font-bold">Đăng nhập</a>.</p>
                     </div>
                 </div>
             </div>

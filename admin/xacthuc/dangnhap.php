@@ -23,19 +23,33 @@
         $ma = trim($_POST['manv']);
         $mk = trim($_POST['pass']);
 
-        $sql_dangnhap = "SELECT * FROM taikhoan WHERE TenDangNhap = '".$ma."' AND MatKhau = '".$mk."' AND TenLTK = 'nv'";
+        $sql_dangnhap = "SELECT * FROM taikhoan WHERE TenDangNhap = '" . $ma . "' AND MatKhau = '" . $mk . "' AND TenLTK = 'nv'";
         $run_dangnhap = mysqli_query($conn, $sql_dangnhap);
-        $dangnhap = mysqli_fetch_array($run_dangnhap);
+        // $dangnhap = mysqli_fetch_array($run_dangnhap);
         $count_dangnhap = mysqli_num_rows($run_dangnhap);
 
         if ($count_dangnhap == 0) {
             echo '<script>alert("Sai tài khoản hoặc mật khẩu!")</script>';
         } else {
-            $sql_nhanvien = "SELECT * FROM nhanvien WHERE MaNV = '".$ma."'";
+            // Xử lý đăng nhập thành công
+            $sql_nhanvien = "SELECT * FROM nhanvien WHERE MaNV = '" . $ma . "'";
             $run_nhanvien = mysqli_query($conn, $sql_nhanvien);
             $nhanvien = mysqli_fetch_array($run_nhanvien);
             $_SESSION['nv'] = $nhanvien;
+
+            // Lưu cookie nếu checkbox "Lưu mật khẩu" được chọn
+            if (isset($_POST['remember'])) {
+                setcookie('manv', $ma, time() + (86400 * 30), "/"); // Lưu trong 30 ngày
+                setcookie('pass', $mk, time() + (86400 * 30), "/");
+            } else {
+                // Xóa cookie nếu checkbox không được chọn
+                setcookie('manv', '', time() - 3600, "/");
+                setcookie('pass', '', time() - 3600, "/");
+            }
+
+            
             header('location: ../index.php');
+            exit();
         }
     }
 ?>
@@ -83,25 +97,29 @@
 
                     <form action="dangnhap.php" method="POST">
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="text" id="inputEmail" name="manv" class="form-control form-control-xl" placeholder="Mã nhân viên" required autofocus>
+                            <input type="text" id="inputEmail" name="manv" class="form-control form-control-xl" placeholder="Mã nhân viên" 
+                                value="<?php if(isset($_COOKIE['manv'])) { echo $_COOKIE['manv']; } ?>" required autofocus>
                             <div class="form-control-icon">
                                 <i class="bi bi-person"></i>
                             </div>
                         </div>
                         <div class="form-group position-relative has-icon-left mb-4">
-                            <input type="password" id="inputPassword" name="pass" class="form-control form-control-xl" placeholder="Mật khẩu" required>
+                            <input type="password" id="inputPassword" name="pass" class="form-control form-control-xl" placeholder="Mật khẩu" 
+                                value="<?php if(isset($_COOKIE['pass'])) { echo $_COOKIE['pass']; } ?>" required>
                             <div class="form-control-icon">
                                 <i class="bi bi-shield-lock"></i>
                             </div>
                         </div>
                         <div class="form-check form-check-lg d-flex align-items-end">
-                            <input class="form-check-input me-2" type="checkbox" value="" id="flexCheckDefault">
+                            <input class="form-check-input me-2" type="checkbox" name="remember" id="flexCheckDefault" 
+                                <?php if(isset($_COOKIE['manv'])) { echo 'checked'; } ?>>
                             <label class="form-check-label text-gray-600" for="flexCheckDefault">
                                 Lưu mật khẩu
                             </label>
                         </div>
                         <button class="btn btn-primary btn-block btn-lg shadow-lg mt-5" name="login">Đăng nhập</button>
                     </form>
+                    
                     <div class="text-center mt-5 text-lg fs-4">
                         <p class="text-gray-600">Bạn chưa có tài khoản? <a href="dangky.php" class="font-bold">Đăng ký</a>.</p>
                         <p><a class="font-bold" href="quenmatkhau.php">Quên mật khẩu?</a>.</p>
@@ -110,7 +128,7 @@
             </div>
             <div class="col-lg-7 d-none d-lg-block">
                 <div id="auth-right">
-
+                    <img src="../../src/img/test.jpg" style="height: 131vh;">
                 </div>
             </div>
         </div>

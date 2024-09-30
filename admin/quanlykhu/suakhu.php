@@ -6,7 +6,6 @@
         $MaKhu = $_POST['txtMaKhu'];
         $GioiTinh = $_POST['txtGioiTinh'];
 
-        $conn = mysqli_connect("localhost", "root", "", "kytucxa");
         if (!$conn) {
             die("Kết nối thất bại");
         }

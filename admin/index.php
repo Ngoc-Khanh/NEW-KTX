@@ -94,18 +94,18 @@ if (!isset($_SESSION['nv'])) {
                         </li>
 
                         <li class="sidebar-item has-sub">
-                            <a href="thongtin.php" class='sidebar-link'>
+                            <a href="#" class='sidebar-link'>
                                 <i class="bi bi-person-badge-fill"></i>
                                 <span>Tài khoản</span>
                             </a>
 
                             <ul class="submenu ">
                                 <li class="submenu-item  ">
-                                    <a href="thongtincanhan.php" class="submenu-link">Thông tin cá nhân</a>
+                                    <a href="index.php?action=thongtincanhan" class="submenu-link">Thông tin cá nhân</a>
                                 </li>
 
                                 <li class="submenu-item  ">
-                                    <a href="component-accordion.html" class="submenu-link">Đổi mật khẩu</a>
+                                    <a href="index.php?action=doimatkhau&view=doimatkhau" class="submenu-link">Đổi mật khẩu</a>
                                 </li>
                             </ul>
                         </li>
@@ -218,6 +218,14 @@ if (!isset($_SESSION['nv'])) {
             switch ($action) {
                 case 'logout':
                     header('Location: ./taikhoan/dangxuat.php');
+
+                // PROFILES
+                case 'thongtincanhan':
+                    include('./taikhoan/thongtincanhan.php');
+                    break;
+                case 'doimatkhau':
+                    include('./taikhoan/doimatkhau.php');
+                    break;
 
                 // QUẢN LÝ ĐĂNG KÝ PHÒNG
                 case 'dangkyphong':

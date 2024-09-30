@@ -63,11 +63,11 @@
 
                         <ul class="submenu ">
                             <li class="submenu-item  ">
-                                <a href="thongtincanhan.php" class="submenu-link">Thông tin cá nhân</a>
+                                <a href="index.php?action=thongtincanhan" class="submenu-link">Thông tin cá nhân</a>
                             </li>
 
                             <li class="submenu-item  ">
-                                <a href="component-accordion.html" class="submenu-link">Đổi mật khẩu</a>
+                                <a href="index.php?action=doimatkhau&view=doimatkhau" class="submenu-link">Đổi mật khẩu</a>
                             </li>
                         </ul>
                     </li>
