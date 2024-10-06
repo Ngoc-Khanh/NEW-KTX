@@ -79,39 +79,83 @@ if (!isset($_SESSION['nv'])) {
                         </div>
                     </div>
                 </div>
+
+                <?php
+                    $action = isset($_GET['action']) ? $_GET['action'] : '';
+                    $view = isset($_GET['view']) ? $_GET['view'] : '';
+
+                    // Khai báo các biến để chứa class active
+                    $trangchu_active = '';
+                    $taikhoan_active = '';
+                    $thongtincanhan_active = '';
+                    $doimatkhau_active = '';
+                    $dangkyphong_active = '';
+                    $quanlydangkyphong_active = '';
+                    $danhsachdaduyet_active = '';
+                    $traphong_active = '';
+                    $hoadon_active = '';
+                    $khu_active = '';
+                    $phong_active = '';
+                    $taikhoanql_active = '';
+                    $sinhvien_active = '';
+
+                    // Xử lý gán class active dựa trên action và view
+                    if ($action == '') {
+                        $trangchu_active = 'active';
+                    } elseif ($action == 'thongtincanhan') {
+                        $taikhoan_active = 'active';
+                        $thongtincanhan_active = 'active';
+                    } elseif ($action == 'doimatkhau' && $view == 'doimatkhau') {
+                        $taikhoan_active = 'active';
+                        $doimatkhau_active = 'active';
+                    } elseif ($action == 'dangkyphong' && $view == 'quanlydangkyphong' || $action == 'chitietdangkyqldkp') {
+                        $dangkyphong_active = 'active';
+                        $quanlydangkyphong_active = 'active';
+                    } elseif ($action == 'danhsachdaduyetqldkp' || $action == 'chitietdangkyqldkp2') {
+                        $dangkyphong_active = 'active';
+                        $danhsachdaduyet_active = 'active';
+                    } elseif ($action == 'traphong' && $view == 'quanlytraphong' || $action == 'chitietdangkyquanlytraphong') {
+                        $traphong_active = 'active';
+                    } elseif ($action == 'hoadon' && $view == 'quanlyhoadon' || $action == 'themhoadon') {
+                        $hoadon_active = 'active';
+                    } elseif ($action == 'khu' && $view == 'all') {
+                        $khu_active = 'active';
+                    } elseif ($action == 'phong' && $view == 'quanlyphong') {
+                        $phong_active = 'active';
+                    } elseif ($action == 'taikhoan' && $view == 'taikhoan') {
+                        $taikhoanql_active = 'active';
+                    } elseif ($action == 'sinhvien' && $view == 'all') {
+                        $sinhvien_active = 'active';
+                    }
+                    ?>
+
                 <div class="sidebar-menu">
                     <ul class="menu">
                         <li class="sidebar-title">Menu</li>
 
-                        <li
-                            class="sidebar-item active ">
+                        <li class="sidebar-item <?php echo $trangchu_active; ?>">
                             <a href="index.php" class='sidebar-link'>
                                 <i class="bi bi-grid-fill"></i>
                                 <span>Trang chủ</span>
                             </a>
-
-
                         </li>
 
-                        <li class="sidebar-item has-sub">
+                        <li class="sidebar-item has-sub <?php echo $taikhoan_active; ?>">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-person-badge-fill"></i>
                                 <span>Tài khoản</span>
                             </a>
-
-                            <ul class="submenu ">
-                                <li class="submenu-item  ">
+                            <ul class="submenu">
+                                <li class="submenu-item <?php echo $thongtincanhan_active; ?>">
                                     <a href="index.php?action=thongtincanhan" class="submenu-link">Thông tin cá nhân</a>
                                 </li>
-
-                                <li class="submenu-item  ">
+                                <li class="submenu-item <?php echo $doimatkhau_active; ?>">
                                     <a href="index.php?action=doimatkhau&view=doimatkhau" class="submenu-link">Đổi mật khẩu</a>
                                 </li>
                             </ul>
                         </li>
 
-                        <li
-                            class="sidebar-item  ">
+                        <li class="sidebar-item">
                             <a href="./xacthuc/dangxuat.php" class='sidebar-link'>
                                 <i class="bi bi-box-arrow-left"></i>
                                 <span>Đăng xuất</span>
@@ -120,91 +164,62 @@ if (!isset($_SESSION['nv'])) {
 
                         <li class="sidebar-title">Quản lý</li>
 
-                        <li
-                            class="sidebar-item  has-sub">
+                        <li class="sidebar-item has-sub <?php echo $dangkyphong_active; ?>">
                             <a href="#" class='sidebar-link'>
                                 <i class="bi bi-file-earmark-medical-fill"></i>
                                 <span>Quản lý Đăng Ký Phòng</span>
                             </a>
-
-                            <ul class="submenu ">
-
-                                <li class="submenu-item  ">
+                            <ul class="submenu">
+                                <li class="submenu-item <?php echo $quanlydangkyphong_active; ?>">
                                     <a href="index.php?action=dangkyphong&view=quanlydangkyphong" class="submenu-link">Xử lý đăng ký</a>
-
                                 </li>
-
-                                <li class="submenu-item  ">
+                                <li class="submenu-item <?php echo $danhsachdaduyet_active; ?>">
                                     <a href="index.php?action=danhsachdaduyetqldkp" class="submenu-link">Danh sách đã xử lý</a>
-
                                 </li>
-
-
                             </ul>
-
-
                         </li>
 
-                        <li
-                            class="sidebar-item  ">
+                        <li class="sidebar-item <?php echo $traphong_active; ?>">
                             <a href="index.php?action=traphong&view=quanlytraphong" class='sidebar-link'>
                                 <i class="bi bi-journal-check"></i>
                                 <span>Quản lý Trả Phòng</span>
                             </a>
-
-
                         </li>
 
-                        <li
-                            class="sidebar-item  ">
+                        <li class="sidebar-item <?php echo $hoadon_active; ?>">
                             <a href="index.php?action=hoadon&view=quanlyhoadon" class='sidebar-link'>
                                 <i class="bi bi-pen-fill"></i>
                                 <span>Quản lý Hóa Đơn</span>
                             </a>
-
-
                         </li>
-                        
-                        <li
-                            class="sidebar-item  ">
+
+                        <li class="sidebar-item <?php echo $khu_active; ?>">
                             <a href="index.php?action=khu&view=all" class='sidebar-link'>
                                 <i class="bi bi-houses"></i>
                                 <span>Quản lý Khu</span>
                             </a>
-
-
                         </li>
 
-                        <li
-                            class="sidebar-item  ">
+                        <li class="sidebar-item <?php echo $phong_active; ?>">
                             <a href="index.php?action=phong&view=quanlyphong" class='sidebar-link'>
                                 <i class="bi bi-house"></i>
                                 <span>Quản lý Phòng</span>
                             </a>
-
-
                         </li>
 
-                        <li
-                            class="sidebar-item  ">
+                        <li class="sidebar-item <?php echo $taikhoanql_active; ?>">
                             <a href="index.php?action=taikhoan&view=taikhoan" class='sidebar-link'>
                                 <i class="bi bi-person-circle"></i>
                                 <span>Quản lý Tài Khoản</span>
                             </a>
-
-
                         </li>
 
-                        <li
-                            class="sidebar-item  ">
-                            <a href="index.php?action=sinhvien&view=all " class='sidebar-link'>
+                        <li class="sidebar-item <?php echo $sinhvien_active; ?>">
+                            <a href="index.php?action=sinhvien&view=all" class='sidebar-link'>
                                 <i class="bi bi-people-fill"></i>
                                 <span>Quản lý Sinh Viên</span>
                             </a>
-
-
                         </li>
-
                     </ul>
                 </div>
             </div>
@@ -333,7 +348,7 @@ if (!isset($_SESSION['nv'])) {
                     break;    
 
                 // QUẢN LÝ SINH VIÊN
-                case 'sinhvien':
+                case'sinhvien':
                     include('./quanlysinhvien/sinhvien.php');
                     break; 
                 case 'themsinhvien':
