@@ -85,7 +85,7 @@
                                     }
                                 }
 
-                                $query = "SELECT MaDK, MaSV, MaPhong, NgayTraPhong, TinhTrang FROM dangkyphong";
+                                $query = "SELECT MaDK, MaSV, MaPhong, NgayTraPhong, TinhTrang FROM dangkyphong where TinhTrang='đã duyệt'";
                                 $result = mysqli_query($conn, $query);
 
                                 if (mysqli_num_rows($result) > 0) {
