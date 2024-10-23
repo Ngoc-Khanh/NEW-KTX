@@ -141,20 +141,7 @@
                                     </a>
                                 </li>
 
-<<<<<<< HEAD
-
-
-                                <!-- <li
-                                    class="menu-item <?php echo $dkchuyenphong_active; ?> ">
-                                    <a href="index.php?action=dkchuyenphong" class='menu-link'>
-                                        <span><i class="bi bi-file-earmark-medical-fill"></i> Đăng ký Chuyển Phòng</span>
-                                    </a>
-                                </li> -->
-
-
-=======
                                 
->>>>>>> main
 
                                 <li
                                     class="menu-item <?php echo $dktraphong_active; ?> ">
