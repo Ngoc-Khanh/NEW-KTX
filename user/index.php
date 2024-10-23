@@ -91,24 +91,32 @@
                     </div>
 
                     <?php
-                        $action = isset($_GET['action']) ? $_GET['action'] : '';
-                    
-                        // Khai báo các biến để chứa class active
-                        $trangchu_active = '';
-                        $dkphong_active = '';
-                        $dkchuyenphong_active = '';
-                        $dktraphong_active = '';
+                        $action = $_GET['action'] ?? '';
 
-                        // Xử lý gán class active dựa trên action và view
-                        if ($action == '') {
-                            $trangchu_active = 'active';
-                        } elseif ($action == 'dkphong' || $action = 'xulydangky') {
-                            $dkphong_active = 'active';
-                        } elseif ($action == 'dkchuyenphong') {
-                            $dkchuyenphong_active = 'active';
-                        } elseif ($action == 'dktraphong') {
-                            $dktraphong_active = 'active';
+                        // Array to hold active classes
+                        $active_classes = [
+                            'trangchu_active' => '',
+                            'dkphong_active' => '',
+                            'dkchuyenphong_active' => '',
+                            'dktraphong_active' => ''
+                        ];
+
+                        // Assign active class based on action
+                        switch ($action) {
+                            case '':
+                                $active_classes['trangchu_active'] = 'active';
+                                break;
+                            case 'dkphong':
+                            case 'xulydangky':
+                                $active_classes['dkphong_active'] = 'active';
+                                break;
+                            case 'dktraphong':
+                                $active_classes['dktraphong_active'] = 'active';
+                                break;
                         }
+
+                        // Extract variables for use in HTML
+                        extract($active_classes);
                     ?>
 
                     <nav class="main-navbar">
@@ -133,16 +141,7 @@
                                     </a>
                                 </li>
 
-
-
-                                <!-- <li
-                                    class="menu-item <?php echo $dkchuyenphong_active; ?> ">
-                                    <a href="index.php?action=dkchuyenphong" class='menu-link'>
-                                        <span><i class="bi bi-file-earmark-medical-fill"></i> Đăng ký Chuyển Phòng</span>
-                                    </a>
-                                </li> -->
-
-
+                                
 
                                 <li
                                     class="menu-item <?php echo $dktraphong_active; ?> ">
