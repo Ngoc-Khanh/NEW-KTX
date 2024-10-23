@@ -37,6 +37,12 @@
                         </h5> -->
                     </div>
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 d-flex justify-content-end mb-3">
+                                <button type="button" class='btn btn-primary me-2' data-bs-toggle='modal' data-bs-target='#inlineForm' style='cursor: pointer;'>Thêm</button>
+                                <a class='btn btn-success' href='index.php?action=xuattaikhoan'>Xuất Excel</a>
+                            </div>
+                        </div>
                         <table class="table table-striped" id="table1">
                             <thead>
                                 <tr>
@@ -48,110 +54,109 @@
                             </thead>
                             <tbody>
                                 <?php
-                                    include_once('./config/database.php');
+                                include_once('./config/database.php');
 
-                                    // Câu truy vấn để lấy tất cả các khu
-                                    $sql = "SELECT * FROM taikhoan";
-                                    $result = mysqli_query($conn, $sql);
+                                // Câu truy vấn để lấy tất cả các khu
+                                $sql = "SELECT * FROM taikhoan";
+                                $result = mysqli_query($conn, $sql);
 
-                                    // Kiểm tra kết quả truy vấn
-                                    if (mysqli_num_rows($result) > 0) {
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                            $TenDangNhap = $row['TenDangNhap'];
-                                            $MatKhau = $row['MatKhau'];
-                                            $TenLTK = $row['TenLTK'];
+                                // Kiểm tra kết quả truy vấn
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        $TenDangNhap = $row['TenDangNhap'];
+                                        $MatKhau = $row['MatKhau'];
+                                        $TenLTK = $row['TenLTK'];
+                                ?>
+                                        <tr>
+                                            <td><?= $TenDangNhap ?></td>
+                                            <td><?= $row["MatKhau"] ?></td>
+                                            <td><?= $row["TenLTK"] ?></td>
+                                            <td>
+                                                <a class='badge bg-warning' data-bs-toggle='modal' data-bs-target='#inlineForm2_<?= $TenDangNhap ?>' style='cursor: pointer;'>Sửa</a>
+                                                <a class='badge bg-danger' style='cursor: pointer;' onclick='confirmDelete("<?= $TenDangNhap ?>")'>Xóa</a>
+                                            </td>
+                                        </tr>
 
-                                            echo "<tr>";
-                                            echo "<td>" . $TenDangNhap . "</td>";
-                                            echo "<td>" . $row["MatKhau"] ."</td>";
-                                            echo "<td>" . $row["TenLTK"] . "</td>";
-                                            echo "<td>
-                                                    <a class='badge bg-primary' data-bs-toggle='modal' data-bs-target='#inlineForm' style='cursor: pointer;'>Thêm</a>
-                                                    <a class='badge bg-warning' data-bs-toggle='modal' data-bs-target='#inlineForm2_$TenDangNhap' style='cursor: pointer;'>Sửa</a>
-                                                    <a class='badge bg-danger' style='cursor: pointer;' onclick='confirmDelete(\"" . $TenDangNhap . "\")'>Xóa</a>
-                                                    <a class='badge bg-success' href='index.php?action=xuatkhu'>Excel</a>
-                                                </td>";
-                                            echo "</tr>";
-    
-                                            echo "
-                                                <div class='modal fade text-left' id='inlineForm2_$TenDangNhap' tabindex='-1' role='dialog' aria-labelledby='myModalLabel33' aria-hidden='true'>
-                                                    <div class='modal-dialog modal-dialog-centered modal-dialog-scrollable' role='document'>
-                                                        <div class='modal-content'>
-                                                            <div class='modal-header'>
-                                                                <h4 class='modal-title' id='myModalLabel33'>Sửa thông tin $TenDangNhap</h4>
-                                                                <button type='button' class='close' data-bs-dismiss='modal' aria-label='Close'>
-                                                                    <i data-feather='x'></i>
-                                                                </button>
-                                                            </div>
-                                                            <form action='index.php?action=suataikhoan&TenDangNhap=$TenDangNhap' method='POST'>
-                                                                <div class='modal-body'>
-                                                                    <label for='tendangnhap'>Tên Đăng Nhập: </label>
-                                                                    <div class='form-group'>
-                                                                        <input id='tendangnhap' type='text' placeholder='Tên Đăng Nhập' class='form-control' name='txtTenDangNhap' value='$TenDangNhap' readonly>
-                                                                    </div>
-                                                                    
-                                                                    <label for='matkhau'>Mật khẩu: </label>
-                                                                    <div class='form-group'>
-                                                                        <input id='matkhau' type='text' placeholder='Mật Khẩu' class='form-control' name='txtMatKhau' required focuson>
-                                                                    </div>
-                                                                    
-                                                                    <label for='tenltk'>Loại tài khoản: </label>
-                                                                    <div class='form-group'>
-                                                                        <fieldset class='form-group'>
-                                                                            <select class='form-select' name='txtLTK' id='basicSelect'>";
-
-                                                                                $sqlTaiKhoan = "SELECT DISTINCT TenLTK FROM taikhoan"; 
-                                                                                $resultTaiKhoan = mysqli_query($conn, $sqlTaiKhoan);
-                                                                                $options = []; // Mảng để lưu các option đã hiển thị
-
-                                                                                // Giả sử bạn có biến $currentTenLTK chứa giá trị hiện tại
-                                                                                $currentTenLTK = $row['TenLTK']; // Thay $row['TenLTK'] bằng giá trị tương ứng của bạn
-
-                                                                                while ($kq = mysqli_fetch_array($resultTaiKhoan)) {
-                                                                                    $displayName = '';
-                                                                                    switch ($kq['TenLTK']) {
-                                                                                        case 'nv':
-                                                                                            $displayName = 'Nhân viên';
-                                                                                            break;
-                                                                                        case 'sv':
-                                                                                            $displayName = 'Sinh viên';
-                                                                                            break;
-                                                                                        case 'khac':
-                                                                                            $displayName = 'Khác';
-                                                                                            break;
-                                                                                        // Thêm các trường hợp khác nếu cần
-                                                                                    }
-
-                                                                                    // Kiểm tra xem option đã có chưa và thêm thuộc tính selected nếu cần
-                                                                                    if ($displayName && !in_array($displayName, $options)) {
-                                                                                        $options[] = $displayName; // Thêm vào mảng đã hiển thị
-                                                                                        $selected = ($kq['TenLTK'] === $currentTenLTK) ? 'selected' : '';
-                                                                                        echo "<option value=\"{$kq['TenLTK']}\" $selected>{$displayName}</option>";
-                                                                                    }
-                                                                                }
-                                                                            
-                                                                            echo "
-                                                                            </select>
-                                                                        </fieldset>
-                                                                    </div>
-                                                                </div>
-                                                                <div class='modal-footer'>
-                                                                    <button type='button' class='btn btn-light-secondary' data-bs-dismiss='modal'>
-                                                                        <span>Đóng</span>
-                                                                    </button>
-                                                                    <button type='submit' class='btn btn-primary ms-1' name='btnLuu'>
-                                                                        <span>Sửa</span>
-                                                                    </button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
+                                        <div class='modal fade text-left' id='inlineForm2_<?= $TenDangNhap ?>' tabindex='-1' role='dialog' aria-labelledby='myModalLabel33' aria-hidden='true'>
+                                            <div class='modal-dialog modal-dialog-centered modal-dialog-scrollable' role='document'>
+                                                <div class='modal-content'>
+                                                    <div class='modal-header'>
+                                                        <h4 class='modal-title' id='myModalLabel33'>Sửa thông tin <?= $TenDangNhap ?></h4>
+                                                        <button type='button' class='close' data-bs-dismiss='modal' aria-label='Close'>
+                                                            <i data-feather='x'></i>
+                                                        </button>
                                                     </div>
-                                                </div>";
-                                            }
-                                        } else {
-                                            echo "không có bản ghi";
-                                        }
-                                    ?>
+                                                    <form action='index.php?action=suataikhoan&TenDangNhap=<?= $TenDangNhap ?>' method='POST'>
+                                                        <div class='modal-body'>
+                                                            <label for='tendangnhap'>Tên Đăng Nhập: </label>
+                                                            <div class='form-group'>
+                                                                <input id='tendangnhap' type='text' placeholder='Tên Đăng Nhập' class='form-control' name='txtTenDangNhap' value='<?= $TenDangNhap ?>' readonly>
+                                                            </div>
+
+                                                            <label for='matkhau'>Mật khẩu: </label>
+                                                            <div class='form-group'>
+                                                                <input id='matkhau' type='text' placeholder='Mật Khẩu' class='form-control' name='txtMatKhau' required focuson>
+                                                            </div>
+
+                                                            <label for='tenltk'>Loại tài khoản: </label>
+                                                            <div class='form-group'>
+                                                                <fieldset class='form-group'>
+                                                                    <select class='form-select' name='txtLTK' id='basicSelect'>
+                                                                        <?php
+                                                                        $sqlTaiKhoan = "SELECT DISTINCT TenLTK FROM taikhoan";
+                                                                        $resultTaiKhoan = mysqli_query($conn, $sqlTaiKhoan);
+                                                                        $options = []; // Mảng để lưu các option đã hiển thị
+
+                                                                        // Giả sử bạn có biến $currentTenLTK chứa giá trị hiện tại
+                                                                        $currentTenLTK = $row['TenLTK']; // Thay $row['TenLTK'] bằng giá trị tương ứng của bạn
+
+                                                                        while ($kq = mysqli_fetch_array($resultTaiKhoan)) {
+                                                                            $displayName = '';
+                                                                            switch ($kq['TenLTK']) {
+                                                                                case 'nv':
+                                                                                    $displayName = 'Nhân viên';
+                                                                                    break;
+                                                                                case 'sv':
+                                                                                    $displayName = 'Sinh viên';
+                                                                                    break;
+                                                                                case 'khac':
+                                                                                    $displayName = 'Khác';
+                                                                                    break;
+                                                                                    // Thêm các trường hợp khác nếu cần
+                                                                            }
+
+                                                                            // Kiểm tra xem option đã có chưa và thêm thuộc tính selected nếu cần
+                                                                            if ($displayName && !in_array($displayName, $options)) {
+                                                                                $options[] = $displayName; // Thêm vào mảng đã hiển thị
+                                                                                $selected = ($kq['TenLTK'] === $currentTenLTK) ? 'selected' : '';
+                                                                        ?>
+                                                                                <option value="<?= $kq['TenLTK'] ?>" <?= $selected ?>><?= $displayName ?></option>
+                                                                        <?php
+                                                                            }
+                                                                        }
+                                                                        ?>
+                                                                    </select>
+                                                                </fieldset>
+                                                            </div>
+                                                        </div>
+                                                        <div class='modal-footer'>
+                                                            <button type='button' class='btn btn-light-secondary' data-bs-dismiss='modal'>
+                                                                <span>Đóng</span>
+                                                            </button>
+                                                            <button type='submit' class='btn btn-primary ms-1' name='btnLuu'>
+                                                                <span>Sửa</span>
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                <?php
+                                    }
+                                } else {
+                                    echo "không có bản ghi";
+                                }
+                                ?>
 
                                 <script>
                                     function confirmDelete(TenDangNhap) {
@@ -184,47 +189,47 @@
                                 <label for="makhu">Mã Khu: </label>
                                 <div class="form-group">
                                     <input id="tendangnhap" type="text" placeholder="Tên Đăng Nhập"
-                                    class="form-control" name="txtTenDangNhap">
+                                        class="form-control" name="txtTenDangNhap">
                                 </div>
-                                
+
                                 <label for="matkhau">Mật khẩu: </label>
                                 <div class="form-group">
                                     <input id="matkhau" type="text" placeholder="Mật Khẩu"
                                         class="form-control" name="txtMatKhau">
                                 </div>
-                                
+
                                 <label for="tenltk">Loại tài khoản: </label>
                                 <div class="form-group">
                                     <fieldset class="form-group">
                                         <select class="form-select" name="txtLTK" id="basicSelect">
                                             <option value="" disabled selected>Loại tài khoản</option>
-                                            <?php 
-                                                $sql = "SELECT DISTINCT TenLTK FROM taikhoan"; 
-                                                $result = mysqli_query($conn, $sql);
-                                                $options = []; // Mảng để lưu các option đã hiển thị
-                                                
-                                                while ($kq = mysqli_fetch_array($result)) {
-                                                    $displayName = '';
-                                                    switch ($kq['TenLTK']) {
-                                                        case 'nv':
-                                                            $displayName = 'Nhân viên';
-                                                            break;
-                                                        case 'sv':
-                                                            $displayName = 'Sinh viên';
-                                                            break;
-                                                        case 'khac': // Ví dụ cho loại tài khoản khác
-                                                            $displayName = 'Khác';
-                                                            break;
+                                            <?php
+                                            $sql = "SELECT DISTINCT TenLTK FROM taikhoan";
+                                            $result = mysqli_query($conn, $sql);
+                                            $options = []; // Mảng để lưu các option đã hiển thị
+
+                                            while ($kq = mysqli_fetch_array($result)) {
+                                                $displayName = '';
+                                                switch ($kq['TenLTK']) {
+                                                    case 'nv':
+                                                        $displayName = 'Nhân viên';
+                                                        break;
+                                                    case 'sv':
+                                                        $displayName = 'Sinh viên';
+                                                        break;
+                                                    case 'khac': // Ví dụ cho loại tài khoản khác
+                                                        $displayName = 'Khác';
+                                                        break;
                                                         // Thêm các trường hợp khác nếu cần
-                                                    }
-                                                    
-                                                    // Kiểm tra xem option đã có chưa
-                                                    if ($displayName && !in_array($displayName, $options)) {
-                                                        $options[] = $displayName; // Thêm vào mảng đã hiển thị
-                                                        echo "<option value=\"{$kq['TenLTK']}\">{$displayName}</option>";
-                                                    }
                                                 }
-                                            ?>  
+
+                                                // Kiểm tra xem option đã có chưa
+                                                if ($displayName && !in_array($displayName, $options)) {
+                                                    $options[] = $displayName; // Thêm vào mảng đã hiển thị
+                                                    echo "<option value=\"{$kq['TenLTK']}\">{$displayName}</option>";
+                                                }
+                                            }
+                                            ?>
                                         </select>
                                     </fieldset>
                                 </div>

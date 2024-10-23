@@ -27,7 +27,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title"> Xin chào, 
+                            <h4 class="card-title"> Xin chào,
                                 <?php
                                     if (isset($_SESSION['sv'])) {
                                         $sv = $_SESSION['sv'];
@@ -55,6 +55,13 @@
                                         $danhSachKhu = array(); // Không xác định giới tính, không hiển thị khu nào
                                     }
 
+                                    // Chọn ngẫu nhiên 1 khu từ danh sách khu
+                                    if (!empty($danhSachKhu)) {
+                                        $khuNgauNhien = $danhSachKhu[array_rand($danhSachKhu)];
+                                    } else {
+                                        $khuNgauNhien = null; // Không có khu nào để chọn
+                                    }
+
                                     // Kiểm tra xem có thông báo nào trong session hay không
                                     if (isset($_SESSION['message'])) {
                                         echo "<script type='text/javascript'>alert('" . $_SESSION['message'] . "');</script>";
@@ -66,6 +73,7 @@
                         <div class="card-content">
                             <div class="card-body">
                                 <form class="form" action="index.php?action=xulydangky" method="post" data-parsley-validate>
+                                    <input type="hidden" name="khu" value="<?php echo $khuNgauNhien; ?>" />
                                     <div class="row">
                                         <div class="col-md-6 col-12">
                                             <div class="form-group mandatory">
@@ -86,39 +94,29 @@
                                                 <fieldset>
                                                     <label class="form-label">Chọn số người trong phòng</label>
                                                     <?php
-                                                    $sql = "SELECT * FROM phong";
-                                                    $result = $conn->query($sql);
+                                                        // Điều chỉnh truy vấn dựa trên giới tính
+                                                        $gioiTinh = $gioiTinh == "nam" ? "nam" : "nữ";
+                                                        $sql = "SELECT phong.SoNguoiToiDa, phong.Gia
+                                                                FROM phong
+                                                                INNER JOIN khu ON phong.MaKhu = khu.MaKhu
+                                                                WHERE khu.GioiTinh = '$gioiTinh'";
+                                                        $result = $conn->query($sql);
 
-                                                    $roomChoices = array(); // Mảng để lưu các lựa chọn đã được hiển thị
-                                                    while ($row = $result->fetch_assoc()) {
-                                                        $soNguoiToiDa = $row['SoNguoiToiDa'];
-                                                        $gia = $row['Gia'];
-                                                        $choice = "$soNguoiToiDa người - Giá: $gia VND";
+                                                        $roomChoices = array(); // Mảng để lưu các lựa chọn đã được hiển thị
+                                                        while ($row = $result->fetch_assoc()) {
+                                                            $soNguoiToiDa = $row['SoNguoiToiDa'];
+                                                            $gia = $row['Gia'];
+                                                            $choice = "$soNguoiToiDa người - Giá: $gia VND";
 
-                                                        if (!in_array($choice, $roomChoices)) {
-                                                            echo "<div class='form-check'>
-                                                                    <input class='form-check-input' type='radio' name='SoNguoi' value='$soNguoiToiDa' data-parsley-required='true' />
-                                                                    <label class='form-check-label form-label'>$choice</label>
-                                                                  </div>";
-                                                            $roomChoices[] = $choice;
+                                                            if (!in_array($choice, $roomChoices)) {
+                                                                echo "<div class='form-check'>
+                                                                        <input class='form-check-input' type='radio' name='SoNguoi' value='$soNguoiToiDa' data-parsley-required='true' />
+                                                                        <label class='form-check-label form-label'>$choice</label>
+                                                                    </div>";
+                                                                $roomChoices[] = $choice;
+                                                            }
                                                         }
-                                                    }
                                                     ?>
-                                                </fieldset>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-12">
-                                            <div class="form-group mandatory">
-                                                <fieldset>
-                                                    <!-- <label class="form-label">Chọn khu</label> -->
-                                                    <?php foreach ($danhSachKhu as $khu) : ?>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="radio" name="khu" value="<?php echo $khu; ?>" />
-                                                            <label class="form-check-label form-label">Khu <?php echo $khu; ?></label>
-                                                        </div>
-                                                    <?php endforeach; ?>
                                                 </fieldset>
                                             </div>
                                         </div>
@@ -130,6 +128,7 @@
                                         </div>
                                     </div>
                                 </form>
+
                             </div>
                         </div>
                     </div>

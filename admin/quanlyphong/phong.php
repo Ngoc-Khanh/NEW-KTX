@@ -37,6 +37,12 @@
                         </h5> -->
                     </div>
                     <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-12 d-flex justify-content-end mb-3">
+                                <button type="button" class='btn btn-primary me-2' data-bs-toggle='modal' data-bs-target='#inlineForm' style='cursor: pointer;'>Thêm</button>
+                                <a class='btn btn-success' href='index.php?action=xuatphong'>Xuất Excel</a>
+                            </div>
+                        </div>
                         <table class="table table-striped" id="table1">
                             <thead>
                                 <tr>
@@ -50,96 +56,94 @@
                             </thead>
                             <tbody>
                                 <?php
-                                    include_once('./config/database.php');
+                                include_once('./config/database.php');
 
-                                    // Câu truy vấn để lấy tất cả các khu
-                                    $sql = "SELECT * FROM phong";
-                                    $result = mysqli_query($conn, $sql);
+                                // Câu truy vấn để lấy tất cả các khu
+                                $sql = "SELECT * FROM phong";
+                                $result = mysqli_query($conn, $sql);
 
-                                    // Kiểm tra kết quả truy vấn
-                                    if (mysqli_num_rows($result) > 0) {
-                                        while ($row = mysqli_fetch_assoc($result)) {
-                                            $MaKhu = $row['MaKhu'];
-                                            $MaPhong = $row['MaPhong'];
-                                            $SoNguoiToiDa = $row['SoNguoiToiDa'];
-                                            $SoNguoiHienTai = $row['SoNguoiHienTai'];
-                                            $Gia = $row['Gia'];
+                                // Kiểm tra kết quả truy vấn
+                                if (mysqli_num_rows($result) > 0) {
+                                    while ($row = mysqli_fetch_assoc($result)) {
+                                        $MaKhu = $row['MaKhu'];
+                                        $MaPhong = $row['MaPhong'];
+                                        $SoNguoiToiDa = $row['SoNguoiToiDa'];
+                                        $SoNguoiHienTai = $row['SoNguoiHienTai'];
+                                        $Gia = $row['Gia'];
+                                ?>
+                                        <tr>
+                                            <td><?php echo $row["MaKhu"]; ?></td>
+                                            <td><?php echo $MaPhong; ?></td>
+                                            <td><?php echo $row["SoNguoiToiDa"]; ?></td>
+                                            <td><?php echo $row["SoNguoiHienTai"]; ?></td>
+                                            <td><?php echo number_format($row["Gia"], 0, ',', '.'); ?> đ</td>
+                                            <td>
+                                                <a class='badge bg-warning' data-bs-toggle='modal' data-bs-target='#inlineForm2_<?php echo $MaPhong; ?>' style='cursor: pointer;'>Sửa</a>
+                                                <a class='badge bg-danger' style='cursor: pointer;' onclick='confirmDelete("<?php echo $MaPhong; ?>")'>Xóa</a>
+                                            </td>
+                                        </tr>
 
-                                            echo "<tr>";
-                                            echo "<td>" . $row["MaKhu"] . "</td>";
-                                            echo "<td>" . $MaPhong . "</td>";
-                                            echo "<td>" . $row["SoNguoiToiDa"] . "</td>";
-                                            echo "<td>" . $row["SoNguoiHienTai"] . "</td>";
-                                            echo "<td>" . number_format($row["Gia"], 0, ',', '.') . " đ</td>";
-                                            echo "<td>
-                                                    <a class='badge bg-primary' data-bs-toggle='modal' data-bs-target='#inlineForm' style='cursor: pointer;'>Thêm</a>
-                                                    <a class='badge bg-warning' data-bs-toggle='modal' data-bs-target='#inlineForm2_$MaPhong' style='cursor: pointer;'>Sửa</a>
-                                                    <a class='badge bg-danger' style='cursor: pointer;' onclick='confirmDelete(\"" . $MaPhong . "\")'>Xóa</a>
-                                                    <a class='badge bg-success' href='index.php?action=xuatkhu'>Excel</a>
-                                                </td>";
-                                            echo "</tr>";
-
-                                            echo "
-                                                <div class='modal fade text-left' id='inlineForm2_$MaPhong' tabindex='-1' role='dialog' aria-labelledby='myModalLabel33' aria-hidden='true'>
-                                                    <div class='modal-dialog modal-dialog-centered modal-dialog-scrollable' role='document'>
-                                                        <div class='modal-content'>
-                                                            <div class='modal-header'>
-                                                                <h4 class='modal-title' id='myModalLabel33'>Sửa thông tin phòng $MaPhong</h4>
-                                                                <button type='button' class='close' data-bs-dismiss='modal' aria-label='Close'>
-                                                                    <i data-feather='x'></i>
-                                                                </button>
-                                                            </div>
-                                                            <form action='index.php?action=suaphong&MaPhong=$MaPhong' method='POST'>
-                                                                <div class='modal-body'>
-                                                                    <label for='makhu'>Mã Khu: </label>
-                                                                    <div class='form-group'>
-                                                                        <fieldset class='form-group'>
-                                                                            <select class='form-select' name='txtMaKhu' id='basicSelect'>";
-
-                                                                            $sqlKhu = "SELECT * FROM khu"; 
-                                                                            $resultKhu = mysqli_query($conn, $sqlKhu); 
-
-                                                                            while ($kq = mysqli_fetch_array($resultKhu)) { 
-                                                                                echo "<option " . ($kq['MaKhu'] === $MaKhu ? 'selected="selected"' : '') . " value=\"" . $kq['MaKhu'] . "\">" . $kq['MaKhu'] . " (" . $kq['GioiTinh'] . ")</option>";
-                                                                            }
-
-                                                                            echo "</select>
-                                                                        </fieldset>
-                                                                    </div>
-                                                                    <label for='maphong'>Mã Phòng: </label>
-                                                                    <div class='form-group'>
-                                                                        <input id='maphong' type='text' class='form-control' name='txtMaPhong' value='$MaPhong' readonly>
-                                                                    </div>
-                                                                    <label for='songuoitoida'>Số người tối đa: </label>
-                                                                    <div class='form-group'>
-                                                                        <input id='songuoitoida' type='number' class='form-control' name='txtSoNguoiToiDa' value='$SoNguoiToiDa'>
-                                                                    </div>
-                                                                    <label for='songuoihientai'>Số người hiện tại: </label>
-                                                                    <div class='form-group'>
-                                                                        <input id='songuoihientai' type='number' class='form-control' name='txtSoNguoiHienTai' value='$SoNguoiHienTai'>
-                                                                    </div>
-                                                                    <label for='gia'>Giá: </label>
-                                                                    <div class='form-group'>
-                                                                        <input id='gia' type='text' class='form-control' name='txtGia' value='" . number_format($Gia, 0, ',', '.') . "'>
-                                                                    </div>
-                                                                </div>
-                                                                <div class='modal-footer'>
-                                                                    <button type='button' class='btn btn-light-secondary' data-bs-dismiss='modal'>
-                                                                        <span>Đóng</span>
-                                                                    </button>
-                                                                    <button type='submit' class='btn btn-primary ms-1' name='btnLuu'>
-                                                                        <span>Sửa</span>
-                                                                    </button>
-                                                                </div>
-                                                            </form>
-                                                        </div>
+                                        <div class='modal fade text-left' id='inlineForm2_<?php echo $MaPhong; ?>' tabindex='-1' role='dialog' aria-labelledby='myModalLabel33' aria-hidden='true'>
+                                            <div class='modal-dialog modal-dialog-centered modal-dialog-scrollable' role='document'>
+                                                <div class='modal-content'>
+                                                    <div class='modal-header'>
+                                                        <h4 class='modal-title' id='myModalLabel33'>Sửa thông tin phòng <?php echo $MaPhong; ?></h4>
+                                                        <button type='button' class='close' data-bs-dismiss='modal' aria-label='Close'>
+                                                            <i data-feather='x'></i>
+                                                        </button>
                                                     </div>
-                                                </div>";
-                                            }
-                                        } else {
-                                            echo "không có bản ghi";
-                                        }
-                                    ?>
+                                                    <form action='index.php?action=suaphong&MaPhong=<?php echo $MaPhong; ?>' method='POST'>
+                                                        <div class='modal-body'>
+                                                            <label for='makhu'>Mã Khu: </label>
+                                                            <div class='form-group'>
+                                                                <fieldset class='form-group'>
+                                                                    <select class='form-select' name='txtMaKhu' id='basicSelect'>
+                                                                        <?php
+                                                                        $sqlKhu = "SELECT * FROM khu";
+                                                                        $resultKhu = mysqli_query($conn, $sqlKhu);
+
+                                                                        while ($kq = mysqli_fetch_array($resultKhu)) {
+                                                                        ?>
+                                                                            <option <?php if ($kq['MaKhu'] === $MaKhu) echo 'selected="selected"'; ?> value="<?php echo $kq['MaKhu']; ?>"><?php echo $kq['MaKhu'] . " (" . $kq['GioiTinh'] . ")"; ?></option>
+                                                                        <?php } ?>
+                                                                    </select>
+                                                                </fieldset>
+                                                            </div>
+                                                            <label for='maphong'>Mã Phòng: </label>
+                                                            <div class='form-group'>
+                                                                <input id='maphong' type='text' class='form-control' name='txtMaPhong' value='<?php echo $MaPhong; ?>' readonly>
+                                                            </div>
+                                                            <label for='songuoitoida'>Số người tối đa: </label>
+                                                            <div class='form-group'>
+                                                                <input id='songuoitoida' type='number' class='form-control' name='txtSoNguoiToiDa' value='<?php echo $SoNguoiToiDa; ?>'>
+                                                            </div>
+                                                            <label for='songuoihientai'>Số người hiện tại: </label>
+                                                            <div class='form-group'>
+                                                                <input id='songuoihientai' type='number' class='form-control' name='txtSoNguoiHienTai' value='<?php echo $SoNguoiHienTai; ?>'>
+                                                            </div>
+                                                            <label for='gia'>Giá: </label>
+                                                            <div class='form-group'>
+                                                                <input id='gia' type='text' class='form-control' name='txtGia' value='<?php echo number_format($Gia, 0, ',', '.'); ?>'>
+                                                            </div>
+                                                        </div>
+                                                        <div class='modal-footer'>
+                                                            <button type='button' class='btn btn-light-secondary' data-bs-dismiss='modal'>
+                                                                <span>Đóng</span>
+                                                            </button>
+                                                            <button type='submit' class='btn btn-primary ms-1' name='btnLuu'>
+                                                                <span>Sửa</span>
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                <?php
+                                    }
+                                } else {
+                                    echo "không có bản ghi";
+                                }
+                                ?>
 
                                 <script>
                                     function confirmDelete(MaPhong) {
@@ -173,38 +177,40 @@
                                 <div class="form-group">
                                     <fieldset class="form-group">
                                         <select class="form-select" name="txtMaKhu" id="basicSelect">
-                                            <?php 
-                                                $MaKhu = $row['MaKhu']; 
-                                                $sql = "SELECT * FROM khu"; 
-                                                $result = mysqli_query($conn, $sql); 
-                                                while ($kq = mysqli_fetch_array($result)) { 
+                                            <?php
+                                            $MaKhu = $row['MaKhu'];
+                                            $sql = "SELECT * FROM khu";
+                                            $result = mysqli_query($conn, $sql);
+                                            while ($kq = mysqli_fetch_array($result)) {
                                             ?>
-                                                <option <?php if ($kq['MaKhu'] === $MaKhu) { echo 'selected="selected"'; } ?> value="<?php echo $kq['MaKhu']; ?>">
+                                                <option <?php if ($kq['MaKhu'] === $MaKhu) {
+                                                            echo 'selected="selected"';
+                                                        } ?> value="<?php echo $kq['MaKhu']; ?>">
                                                     <?php echo $kq['MaKhu'] . ' (' . $kq['GioiTinh'] . ')'; ?>
                                                 </option>
-                                            <?php } ?>  
+                                            <?php } ?>
                                         </select>
                                     </fieldset>
                                 </div>
-                                
+
                                 <label for="maphong">Mã Phòng: </label>
                                 <div class="form-group">
                                     <input id="maphong" type="text" placeholder="Mã phòng"
                                         class="form-control" name="txtMaPhong">
                                 </div>
-                                
+
                                 <label for="songuoitoida">Số người tối đa: </label>
                                 <div class="form-group">
                                     <input id="songuoitoida" type="number" placeholder="Số người tối đa"
                                         class="form-control" name="txtSoNguoiToiDa">
                                 </div>
-                                
+
                                 <label for="songuoihientai">Số người hiện tại: </label>
                                 <div class="form-group">
                                     <input id="songuoihientai" type="number" placeholder="Số người hiện tại"
                                         class="form-control" name="txtSoNguoiHienTai">
                                 </div>
-                                
+
                                 <label for="gia">Giá: </label>
                                 <div class="form-group">
                                     <input id="gia" type="text" placeholder="Giá"

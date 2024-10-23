@@ -1,7 +1,7 @@
 <?php
     header("Content-type: text/html; charset=utf-8");
 
-    $tenmaychu = 'localhost';
+    $tenmaychu = 'localhost:3360';
     $tentaikhoan = 'root';
     $matkhau = '';
     $csdl = 'kytucxa';
@@ -19,4 +19,3 @@
     
     // mysqli_select_db($conn, $csdl);
     // mysqli_query($conn, "SET NAMES 'UTF8'");
-?>
