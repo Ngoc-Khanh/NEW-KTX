@@ -1,2 +1,2 @@
-/config/admin/database.php
-/config/user/database.php
+admin/config/database.php
+user/config/database.php
