@@ -269,6 +269,9 @@ if (!isset($_SESSION['nv'])) {
                 case 'chitietdangkyquanlytraphong':
                     include('./quanlytraphong/chitiettraphong.php');
                     break;  
+                case 'xoadangkytraphong':
+                    include('./quanlytraphong/xoadangkytraphong.php');
+                    break;     
                 case 'cancel':
                     include('./quanlytraphong/danhsachtraphong.php');
                     break;  

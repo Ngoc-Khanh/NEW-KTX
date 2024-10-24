@@ -92,7 +92,7 @@
                         <!-- <a href="dangnhap.php"><img src="../assets/compiled/svg/logo.svg" alt="Logo"></a> -->
                         <!-- <p class="font-bold user-group" href="#">Nhóm 6</p> -->
                     </div>
-                    <h1 class="auth-title">Đăng nhập.</h1>
+                    <h1 class="auth-title">Đăng nhập Sinh Viên.</h1>
                     <p class="auth-subtitle mb-5">Chào mừng đến với Ký Túc Xá - UTT của nhóm 6.</p>
 
                     <form action="dangnhap.php" method="POST">

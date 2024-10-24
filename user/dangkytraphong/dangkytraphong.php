@@ -3,17 +3,22 @@ if (isset($_SESSION['sv'])) {
     $sv = $_SESSION['sv'];
     $maSV = $sv['MaSV'];
 
-    // Truy vấn lấy thông tin sinh viên và phòng
-    $query = "SELECT s.HoTen, IFNULL(d.MaPhong, 'Không có') AS MaPhong
-              FROM sinhvien AS s
-              LEFT JOIN dangkyphong AS d ON s.MaSV = d.MaSV
-              WHERE s.MaSV = '$maSV'";
+    // Truy vấn lấy thông tin sinh viên và trạng thái phòng
+    $query = "SELECT s.HoTen, 
+                 IFNULL(s.MaPhong, 'Không có phòng') AS MaPhong, 
+                 IFNULL(d.TinhTrang, 'Chưa đăng ký') AS TinhTrang
+          FROM sinhvien AS s
+          LEFT JOIN dangkyphong AS d ON s.MaSV = d.MaSV
+          WHERE s.MaSV = '$maSV'";
     $result = mysqli_query($conn, $query);
+
+  
 
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
         $hoTen = $row['HoTen'];
         $maPhong = $row['MaPhong'];
+        $tinhTrang = $row['TinhTrang'];
     } else {
         header('location: index.php?action=login');
         exit();
@@ -27,9 +32,21 @@ if (isset($_SESSION['sv'])) {
             $updateQuery = "UPDATE dangkyphong SET TinhTrang = 'chờ duyệt trả', NgayTraPhong = CURDATE() WHERE MaSV = '$maSV'";
             if (mysqli_query($conn, $updateQuery)) {
                 echo '<script>alert("Bạn đã đăng ký trả phòng thành công. Hãy chờ ban quản lý ktx duyệt yêu cầu của bạn.");</script>';
+                $tinhTrang = 'chờ duyệt trả'; // Cập nhật trạng thái
             } else {
                 echo "Lỗi khi cập nhật thông tin trả phòng: " . mysqli_error($conn);
             }
+        }
+    }
+
+    // Xử lý khi sinh viên huỷ đăng ký trả phòng
+    if (isset($_POST['huyTraPhong'])) {
+        $cancelQuery = "UPDATE dangkyphong SET TinhTrang = 'đã duyệt' WHERE MaSV = '$maSV'"; // Trạng thái quay về lúc duyệt khi đăng ký ở, tức là đang ở 
+        if (mysqli_query($conn, $cancelQuery)) {
+            echo '<script>alert("Bạn đã hủy đăng ký trả phòng thành công.");</script>';
+            $tinhTrang = 'đã duyệt'; // Cập nhật trạng thái
+        } else {
+            echo "Lỗi khi huỷ đăng ký trả phòng: " . mysqli_error($conn);
         }
     }
 } else {
@@ -72,6 +89,7 @@ if (isset($_SESSION['sv'])) {
                                     <li class="list-group-item active">Mã sinh viên: <b><?php echo $maSV; ?></b></li>
                                     <li class="list-group-item">Họ tên: <b><?php echo $hoTen; ?></b></li>
                                     <li class="list-group-item">Phòng đang ở: <b><?php echo $maPhong; ?></b></li>
+                                    <li class="list-group-item">Trạng thái: <b><?php echo $tinhTrang; ?></b></li>
                                 </ul>
                             </div>
                         </div>
@@ -86,12 +104,22 @@ if (isset($_SESSION['sv'])) {
                             </h4>
                         </div>
                         <div class="card-content">
-                            <div class="card-body">
-                                <form action="" method="post">
-                                    <button type="submit" name="traPhong" class="btn btn-primary me-1 mb-1">Đăng ký trả phòng</button>
-                                </form>
-                            </div>
-                        </div>
+    <div class="card-body">
+        <?php if ($tinhTrang != 'chờ duyệt trả' && $tinhTrang != 'đã trả') { ?>
+            <form action="" method="post">
+                <button type="submit" name="traPhong" class="btn btn-primary me-1 mb-1">Đăng ký trả phòng</button>
+            </form>
+        <?php } elseif ($tinhTrang == 'chờ duyệt trả') { ?>
+            <form action="" method="post">
+                <button type="submit" name="huyTraPhong" class="btn btn-danger me-1 mb-1">Huỷ đăng ký trả phòng</button>
+            </form>
+        <?php } elseif ($tinhTrang == 'đã trả') { ?>
+            <p><b>Bạn đã trả phòng thành công.</b></p>
+        <?php } else { ?>
+            <p><b>Bạn đã đăng ký trả phòng, vui lòng chờ xét duyệt.</b></p>
+        <?php } ?>
+    </div>
+</div>
                     </div>
                 </div>
             </div>
