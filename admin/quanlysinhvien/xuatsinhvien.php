@@ -1,19 +1,9 @@
 <?php
 // Bước 1: Kết nối đến cơ sở dữ liệu MySQL
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "kytucxa";
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Kiểm tra kết nối
-if ($conn->connect_error) {
-    die("Kết nối đến cơ sở dữ liệu thất bại: " . $conn->connect_error);
-}
+include_once('./config/database.php');
 
 // Bước 2: Sử dụng thư viện PhpSpreadsheet
-require '../vendor/autoload.php';
+require './vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;

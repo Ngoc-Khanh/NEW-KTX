@@ -80,7 +80,7 @@
                                             <script type="text/javascript">
                                                 alert("Xóa không thành công!");
                                             </script>
-                                <?php
+                                        <?php
                                         }
                                     }
                                 }
@@ -90,49 +90,54 @@
 
                                 if (mysqli_num_rows($result) > 0) {
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        echo "<tr>";
-                                        echo "<td>" . $row['MaDK'] . "</td>";
-                                        echo "<td>" . $row['MaSV'] . "</td>";
-                                        echo "<td>" . $row['MaPhong'] . "</td>";
-                                        echo "<td>" . $row['NgayTraPhong'] . "</td>";
-                                        echo "<td>";
-                                        if ($row['TinhTrang'] == 'chưa duyệt') {
-                                            echo '<span class="badge bg-danger">' . $row['TinhTrang'] . '</span>';
-                                        } elseif ($row['TinhTrang'] == 'đã duyệt') {
-                                            echo '<span class="badge bg-success">' . $row['TinhTrang'] . '</span>';
-                                        } else {
-                                            echo $row['TinhTrang'];
-                                        }
-                                        echo "</td>";
-
-                                      echo "<td class='action-buttons'>
-                                        <a class='badge bg-info' href='index.php?action=chitietdangkyquanlytraphong&requestId=" . $row['MaDK'] . "&MaSV=" . $row['MaSV'] . "'>Chi tiết</a>";
-
-                                        if ($row['TinhTrang'] != 'đã trả') {
-                                       echo "<a class='badge bg-primary' href='index.php?action=xulyduyetquanlytraphong&requestId=" . $row['MaDK'] . "&MaSV=" . $row['MaSV'] . "'>Duyệt</a>";
-                                        } else {
-                                             echo "<a class='badge bg-secondary disabled' href='#' aria-disabled='true'>Duyệt</a>"; // Hiển thị nút bị khoá
-                                        }
-
-                                        echo "<a class='badge bg-danger' href='index.php?action=xoadangkytraphong&requestId=" . $row['MaDK'] . "&MaSV=" . $row['MaSV'] . "'>Xóa</a>
-                                         </td>";
-                                        echo "</tr>";
-
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $row['MaDK']; ?></td>
+                                            <td><?php echo $row['MaSV']; ?></td>
+                                            <td><?php echo $row['MaPhong']; ?></td>
+                                            <td><?php echo $row['NgayTraPhong']; ?></td>
+                                            <td>
+                                                <?php
+                                                if ($row['TinhTrang'] == 'chưa duyệt') {
+                                                    echo '<span class="badge bg-danger">' . $row['TinhTrang'] . '</span>';
+                                                } elseif ($row['TinhTrang'] == 'đã duyệt') {
+                                                    echo '<span class="badge bg-success">' . $row['TinhTrang'] . '</span>';
+                                                } else {
+                                                    echo $row['TinhTrang'];
+                                                }
+                                                ?>
+                                            </td>
+                                            <td class='action-buttons'>
+                                                <a class='badge bg-info' href='index.php?action=chitietdangkyquanlytraphong&requestId=<?php echo $row['MaDK']; ?>&MaSV=<?php echo $row['MaSV']; ?>'>Chi tiết</a>
+                                                <?php
+                                                if ($row['TinhTrang'] != 'đã trả') {
+                                                ?>
+                                                    <a class='badge bg-primary' href='index.php?action=xulyduyetquanlytraphong&requestId=<?php echo $row['MaDK']; ?>&MaSV=<?php echo $row['MaSV']; ?>'>Duyệt</a>
+                                                <?php
+                                                } else {
+                                                ?>
+                                                    <a class='badge bg-secondary disabled' href='#' aria-disabled='true'>Duyệt</a>
+                                                <?php
+                                                }
+                                                ?>
+                                                <a class='badge bg-danger' onClick='confirmDelete(<?php echo $row['MaDK']; ?>)' href='index.php?action=xoadangkytraphong&requestId=<?php echo $row['MaDK']; ?>&MaSV=<?php echo $row['MaSV']; ?>'>Xóa</a>
+                                            </td>
+                                        </tr>
+                                <?php
                                     }
                                 } else {
                                     echo "<tr><td colspan='7'>Không có đăng ký nào.</td></tr>";
                                 }
-                             //   <a class='badge bg-danger' href='#' onclick='confirmDelete(" . $row['MaDK'] . ")'>Xóa</a>
-                             //<a class='badge bg-primary' href='index.php?action=xulyduyetquanlytraphong&requestId=" . $row['MaDK'] . "&MaSV=" . $row['MaSV'] . "'>Duyệt</a>
+                                ?>
 
-                            //     <script>
-                            //     function confirmDelete(MaDK) {
-                            //         if (confirm("Bạn có chắc chắn muốn xóa đăng ký trả phòng của sinh viên này không?")) {
-                            //             window.location.href = 'index.php?action=xoadangkytraphong&MaDK=' + MaDK + '&confirm=yes';
-                            //         }
-                            //     }
-                            // </script>
-
+                                <script>
+                                    function confirmDelete(MaDK) {
+                                        if (confirm("Bạn có chắc chắn muốn xóa đăng ký trả phòng của sinh viên này không?")) {
+                                            window.location.href = 'index.php?action=xoadangkytraphong&MaDK=' + MaDK + '&confirm=yes';
+                                        }
+                                    }
+                                </script>
+                                <?php
                                 mysqli_close($conn);
                                 ?>
                             </tbody>

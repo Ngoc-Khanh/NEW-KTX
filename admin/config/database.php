@@ -1,5 +1,5 @@
 <?php
-    include_once '../../localhost.php';
+    include_once '../localhost.php';
     header("Content-type: text/html; charset=utf-8");
 
     $tenmaychu = $localhost_name;
