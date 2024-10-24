@@ -371,7 +371,7 @@ if (!isset($_SESSION['nv'])) {
                     break;
             } 
         } else {
-            echo '
+    ?>
                 <div id="main">
                     <header class="mb-3">
                         <a href="#" class="burger-btn d-block d-xl-none">
@@ -463,25 +463,21 @@ if (!isset($_SESSION['nv'])) {
                                     <div class="card-body py-4 px-4">
                                         <div class="d-flex align-items-center">
                                             <div class="avatar avatar-xl">
-                                                <img src="" alt="avt">
+                                                <img src="./assets/compiled/jpg/1.jpg" alt="avt">
                                             </div>
                                             <div class="ms-3 name">
-                                                <h5 class="font-bold">';
-
-                                                if (isset($_SESSION["nv"])) {
+                                                <h5 class="font-bold">
+                                                <?php if (isset($_SESSION["nv"])) {
                                                     $nv = $_SESSION["nv"];
                                                     echo $nv["HoTen"];
-                                                }
-
-                                                echo '</h5>
-                                                <h6 class="text-muted mb-0">';
-
-                                                if (isset($_SESSION["nv"])) {
+                                                } ?>
+                                                </h5>
+                                                <h6 class="text-muted mb-0">
+                                                <?php if (isset($_SESSION["nv"])) {
                                                     $nv = $_SESSION["nv"];
                                                     echo "@" . $nv["TenDangNhap"];
-                                                }
-
-                                                echo '</h6>
+                                                } ?>
+                                                </h6>
                                             </div>
                                         </div>
                                     </div>
@@ -500,7 +496,8 @@ if (!isset($_SESSION['nv'])) {
                             </div>
                         </div>
                     </footer>
-                </div>';
+                </div>
+    <?php
         }
     ?>
 
