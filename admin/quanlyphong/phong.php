@@ -50,6 +50,7 @@
                                     <th>Mã Phòng</th>
                                     <th>Số Người Tối Đa</th>
                                     <th>Số Người Hiện Tại</th>
+                                    <th>Còn Trống</th>
                                     <th>Giá Phòng</th>
                                     <th>Thao tác</th>
                                 </tr>
@@ -69,6 +70,7 @@
                                         $MaPhong = $row['MaPhong'];
                                         $SoNguoiToiDa = $row['SoNguoiToiDa'];
                                         $SoNguoiHienTai = $row['SoNguoiHienTai'];
+                                        $ConTrong = $SoNguoiToiDa - $SoNguoiHienTai;
                                         $Gia = $row['Gia'];
                                 ?>
                                         <tr>
@@ -76,6 +78,7 @@
                                             <td><?php echo $MaPhong; ?></td>
                                             <td><?php echo $row["SoNguoiToiDa"]; ?></td>
                                             <td><?php echo $row["SoNguoiHienTai"]; ?></td>
+                                            <td><?php echo $ConTrong; ?></td>
                                             <td><?php echo number_format($row["Gia"], 0, ',', '.'); ?> đ</td>
                                             <td>
                                                 <a class='badge bg-warning' data-bs-toggle='modal' data-bs-target='#inlineForm2_<?php echo $MaPhong; ?>' style='cursor: pointer;'>Sửa</a>
