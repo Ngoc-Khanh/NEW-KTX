@@ -329,7 +329,7 @@ if (!isset($_SESSION['nv'])) {
                 case 'xoaphong':
                     include('./quanlyphong/xoaphong.php');
                     break; 
-                case 'xuatquanlyphong':
+                case 'xuatphong':
                     include('./quanlyphong/xuatphong.php');
                     break; 
                 
