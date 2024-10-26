@@ -1,6 +1,6 @@
 <?php
 // Bước 1: Kết nối đến cơ sở dữ liệu MySQL
-include_once('./admin/config/database.php');
+include_once('./config/database.php');
 
 // Bước 2: Sử dụng thư viện PhpSpreadsheet
 require './vendor/autoload.php';

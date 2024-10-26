@@ -1,7 +1,7 @@
 <?php
     header("Content-type: text/html; charset=utf-8");
 
-    $tenmaychu = 'localhost';
+    $tenmaychu = 'localhost:3306';
     $tentaikhoan = 'root';
     $matkhau = '';
     $csdl = 'kytucxa';
