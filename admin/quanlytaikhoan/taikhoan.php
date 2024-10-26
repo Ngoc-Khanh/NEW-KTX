@@ -186,7 +186,7 @@
                         </div>
                         <form action="index.php?action=themtaikhoan" method="POST">
                             <div class="modal-body">
-                                <label for="makhu">Mã Khu: </label>
+                                <label for="tendangnhap">Tên đăng nhập: </label>
                                 <div class="form-group">
                                     <input id="tendangnhap" type="text" placeholder="Tên Đăng Nhập"
                                         class="form-control" name="txtTenDangNhap">
