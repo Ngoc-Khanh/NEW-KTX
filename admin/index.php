@@ -258,6 +258,9 @@ if (!isset($_SESSION['nv'])) {
                 case 'chitietdangkyqldkp2':
                     include('./quanlydangkyphong/chitietdangky2.php');
                     break;
+                case 'xoadangkyphong':
+                    include('./quanlydangkyphong/xoadangkyphong.php');
+                    break;  
 
                 // QUẢN LÝ TRẢ PHÒNG
                 case 'traphong':
