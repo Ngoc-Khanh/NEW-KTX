@@ -1,8 +1,7 @@
 <?php
-    include_once '../../localhost.php';
     header("Content-type: text/html; charset=utf-8");
 
-    $tenmaychu = $localhost_name;
+    $tenmaychu = 'localhost:3360';
     $tentaikhoan = 'root';
     $matkhau = '';
     $csdl = 'kytucxa';
