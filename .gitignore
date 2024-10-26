@@ -1,1 +1,6 @@
+<<<<<<< HEAD
 database.php
+=======
+admin/config/database.php
+user/config/database.php
+>>>>>>> main
