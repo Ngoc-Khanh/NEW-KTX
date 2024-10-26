@@ -5,11 +5,13 @@ if (isset($_SESSION['sv'])) {
 
     // Truy vấn lấy thông tin sinh viên và trạng thái phòng
     $query = "SELECT s.HoTen, 
-                 IFNULL(s.MaPhong, 'Không có phòng') AS MaPhong, 
+                 IFNULL(d.MaPhong, 'Không có phòng') AS MaPhong, 
                  IFNULL(d.TinhTrang, 'Chưa đăng ký') AS TinhTrang
           FROM sinhvien AS s
           LEFT JOIN dangkyphong AS d ON s.MaSV = d.MaSV
-          WHERE s.MaSV = '$maSV'";
+          WHERE s.MaSV = '$maSV'
+          ORDER BY d.NgayDangKy DESC, d.MaDK DESC
+          LIMIT 1";
     $result = mysqli_query($conn, $query);
 
   
@@ -24,20 +26,21 @@ if (isset($_SESSION['sv'])) {
         exit();
     }
 
-    // Xử lý khi sinh viên đăng ký trả phòng
-    if (isset($_POST['traPhong'])) {
-        if ($maPhong == 'Không có') {
-            echo '<script>alert("Bạn đang không có phòng, vui lòng đăng ký phòng!");</script>';
+ if (isset($_POST['traPhong'])) {
+    if ($maPhong == 'Không có phòng') {
+        echo '<script>alert("Bạn đang không có phòng, vui lòng đăng ký phòng!");</script>';
+    } else {
+        $updateQuery = "UPDATE dangkyphong SET TinhTrang = 'chờ duyệt trả', NgayTraPhong = CURDATE() WHERE MaSV = '$maSV'";
+        if (mysqli_query($conn, $updateQuery)) {
+            // Thông báo thành công và chuyển hướng (PRG)
+            echo '<script>alert("Bạn đã đăng ký trả phòng thành công. Hãy chờ ban quản lý ktx duyệt yêu cầu của bạn.");</script>';
+            header('Location: ' . $_SERVER['PHP_SELF']);
+            exit(); // Kết thúc xử lý
         } else {
-            $updateQuery = "UPDATE dangkyphong SET TinhTrang = 'chờ duyệt trả', NgayTraPhong = CURDATE() WHERE MaSV = '$maSV'";
-            if (mysqli_query($conn, $updateQuery)) {
-                echo '<script>alert("Bạn đã đăng ký trả phòng thành công. Hãy chờ ban quản lý ktx duyệt yêu cầu của bạn.");</script>';
-                $tinhTrang = 'chờ duyệt trả'; // Cập nhật trạng thái
-            } else {
-                echo "Lỗi khi cập nhật thông tin trả phòng: " . mysqli_error($conn);
-            }
+            echo "Lỗi khi cập nhật thông tin trả phòng: " . mysqli_error($conn);
         }
     }
+}
 
     // Xử lý khi sinh viên huỷ đăng ký trả phòng
     if (isset($_POST['huyTraPhong'])) {
@@ -50,7 +53,7 @@ if (isset($_SESSION['sv'])) {
         }
     }
 } else {
-    header('location: index.php?action=login');
+    header('location: index.php?action=login');//ktra đăng nhập
     exit();
 }
 ?>
@@ -88,8 +91,19 @@ if (isset($_SESSION['sv'])) {
                                 <ul class="list-group">
                                     <li class="list-group-item active">Mã sinh viên: <b><?php echo $maSV; ?></b></li>
                                     <li class="list-group-item">Họ tên: <b><?php echo $hoTen; ?></b></li>
-                                    <li class="list-group-item">Phòng đang ở: <b><?php echo $maPhong; ?></b></li>
-                                    <li class="list-group-item">Trạng thái: <b><?php echo $tinhTrang; ?></b></li>
+                                    <li class="list-group-item">Phòng đang ở: 
+        <b>
+            <?php 
+            // Kiểm tra trạng thái, nếu đã trả thì hiển thị "Không có phòng"
+            if ($tinhTrang == 'đã trả') {
+                echo 'Không có phòng'; 
+            } else {
+                echo $maPhong; // Nếu chưa trả, hiển thị Mã phòng
+            }
+            ?>
+        </b>
+    </li>                                    <li class="list-group-item">Trạng thái: <b><?php echo $tinhTrang; ?></b></li>
+                                
                                 </ul>
                             </div>
                         </div>
