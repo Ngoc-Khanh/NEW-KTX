@@ -119,8 +119,8 @@
                                                 <div class="form-group has-icon-left">
                                                     <div class="position-relative">
                                                         <select class='form-select' name='gioiTinh' id='gioiTinh'>
-                                                            <option value='Nam' <?php echo ($row['GioiTinh'] === 'Nam') ? 'selected' : ''; ?>>Nam</option>
-                                                            <option value='Nữ' <?php echo ($row['GioiTinh'] === 'Nữ') ? 'selected' : ''; ?>>Nữ</option>
+                                                            <option value='nam' <?php echo ($row['GioiTinh'] === 'nam') ? 'selected' : ''; ?>>nam</option>
+                                                            <option value='nữ' <?php echo ($row['GioiTinh'] === 'nữ') ? 'selected' : ''; ?>>nữ</option>
                                                         </select>
                                                         <!-- <div class="form-control-icon">
                                                             <i class="bi bi-gender-ambiguous"></i>

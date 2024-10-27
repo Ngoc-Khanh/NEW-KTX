@@ -215,12 +215,6 @@
                                         class="form-control" name="txtSoNguoiToiDa">
                                 </div>
 
-                                <label for="songuoihientai">Số người hiện tại: </label>
-                                <div class="form-group">
-                                    <input id="songuoihientai" type="number" placeholder="Số người hiện tại"
-                                        class="form-control" name="txtSoNguoiHienTai">
-                                </div>
-
                                 <label for="gia">Giá: </label>
                                 <div class="form-group">
                                     <input id="gia" type="text" placeholder="Giá"
