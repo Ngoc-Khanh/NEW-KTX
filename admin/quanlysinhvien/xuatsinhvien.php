@@ -15,7 +15,7 @@ $spreadsheet = new Spreadsheet();
 $sheet = $spreadsheet->getActiveSheet();
 
 // Cột tiêu đề cho bảng sinh viên
-$columnHeaders = ['Mã Sinh Viên', 'Họ và Tên', 'Ngày Sinh', 'Giới Tính', 'Địa Chỉ', 'Số Điện Thoại', 'Mail', 'Mã Phòng', 'Tên Khu'];
+$columnHeaders = ['Mã Sinh Viên', 'Họ và Tên', 'Ngày Sinh', 'Giới Tính', 'Địa Chỉ', 'Số Điện Thoại', 'Mail', 'Mã Phòng', 'Tên Khu', 'Tên Đăng Nhập'];
 
 // Xuất dòng tiêu đề
 $col = 'A';

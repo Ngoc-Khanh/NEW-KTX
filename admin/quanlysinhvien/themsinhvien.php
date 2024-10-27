@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['btnLuu'])) {
     $DiaChi = $_POST['txtDiaChi'];
     $SDT = $_POST['txtSDT'];
     $Mail = $_POST['txtMail'];
-    $TenDangNhap = $_POST['txtTenDangNhap'];
+    $TenDangNhap = $_POST['txtMaSV'];
 
     // Câu truy vấn thêm dữ liệu vào bảng sinh viên
     $sql = "INSERT INTO sinhvien (MaSV, HoTen, NgaySinh, GioiTinh, DiaChi, SDT, Mail, TenDangNhap) 

@@ -31,31 +31,52 @@ if (isset($_SESSION['sv'])) {
             if ($maPhong == 'Không có phòng') {
                 $_SESSION['message'] = "Bạn đang không có phòng, vui lòng đăng ký phòng!";
             } else {
-                $updateQuery = "UPDATE dangkyphong SET TinhTrang = 'chờ duyệt trả', NgayTraPhong = CURDATE() WHERE MaSV = '$maSV'";
-                if (mysqli_query($conn, $updateQuery)) {
-                    $_SESSION['message'] = "Bạn đã đăng ký trả phòng thành công. Hãy chờ ban quản lý ktx duyệt yêu cầu của bạn.";
+                // Lấy ID lớn nhất cho sinh viên hiện tại
+                $latestIdQuery = "SELECT MAX(MaDK) as LatestID FROM dangkyphong WHERE MaSV = '$maSV'";
+                $latestIdResult = mysqli_query($conn, $latestIdQuery);
+                $latestIdRow = mysqli_fetch_assoc($latestIdResult);
+                $latestId = $latestIdRow['LatestID'];
+
+                if ($latestId) {
+                    $updateQuery = "UPDATE dangkyphong SET TinhTrang = 'chờ duyệt trả', NgayTraPhong = CURDATE() WHERE MaDK = '$latestId'";
+                    if (mysqli_query($conn, $updateQuery)) {
+                        $_SESSION['message'] = "Bạn đã đăng ký trả phòng thành công. Hãy chờ ban quản lý KTX duyệt yêu cầu của bạn.";
+                    } else {
+                        $_SESSION['message'] = "Lỗi khi cập nhật thông tin trả phòng: " . mysqli_error($conn);
+                    }
                 } else {
-                    $_SESSION['message'] = "Lỗi khi cập nhật thông tin trả phòng: " . mysqli_error($conn);
+                    $_SESSION['message'] = "Không tìm thấy yêu cầu trả phòng.";
                 }
+                header('Location: index.php?action=dktraphong');
+                exit();
             }
-            header('Location: index.php?action=dktraphong');
-            exit();
         }
-    
+
+
         if (isset($_POST['huyTraPhong'])) {
             // Xử lý huỷ đăng ký trả phòng
-            $cancelQuery = "UPDATE dangkyphong SET TinhTrang = 'đã duyệt' WHERE MaSV = '$maSV'";
-            if (mysqli_query($conn, $cancelQuery)) {
-                $_SESSION['message'] = "Bạn đã hủy đăng ký trả phòng thành công.";
-                $tinhTrang = 'đã duyệt';
+            // Lấy ID lớn nhất cho sinh viên hiện tại
+            $latestIdQuery = "SELECT MAX(MaDK) as LatestID FROM dangkyphong WHERE MaSV = '$maSV'";
+            $latestIdResult = mysqli_query($conn, $latestIdQuery);
+            $latestIdRow = mysqli_fetch_assoc($latestIdResult);
+            $latestId = $latestIdRow['LatestID'];
+
+            if ($latestId) {
+                // Cập nhật trạng thái của yêu cầu huỷ
+                $cancelQuery = "UPDATE dangkyphong SET TinhTrang = 'đã duyệt', NgayTraPhong = NULL WHERE MaDK = '$latestId'";
+                if (mysqli_query($conn, $cancelQuery)) {
+                    $_SESSION['message'] = "Bạn đã hủy đăng ký trả phòng thành công.";
+                } else {
+                    $_SESSION['message'] = "Lỗi khi huỷ đăng ký trả phòng: " . mysqli_error($conn);
+                }
             } else {
-                $_SESSION['message'] = "Lỗi khi huỷ đăng ký trả phòng: " . mysqli_error($conn);
+                $_SESSION['message'] = "Không tìm thấy yêu cầu trả phòng để hủy.";
             }
             header('Location: index.php?action=dktraphong');
             exit();
         }
     }
-    
+
     // Hiển thị thông báo nếu có
     if (isset($_SESSION['message'])) {
         echo '<script>alert("' . $_SESSION['message'] . '");</script>';

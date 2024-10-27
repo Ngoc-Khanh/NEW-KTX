@@ -154,7 +154,7 @@
                                 <?php
                                     }
                                 } else {
-                                    echo "không có bản ghi";
+                                    echo '<tr><td colspan="4">Không có bản ghi!</td></tr>';
                                 }
                                 ?>
 

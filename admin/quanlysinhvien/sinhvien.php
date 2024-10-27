@@ -203,7 +203,23 @@
                             <div class="modal-body">
                                 <label for="masv">Mã Sinh Viên: </label>
                                 <div class="form-group">
-                                    <input id="masv" type="text" placeholder="Mã sinh viên" class="form-control" name="txtMaSV">
+                                    <select class="form-select" name="txtMaSV" id="masv">
+                                        <?php
+                                            $sql = "
+                                                SELECT TenDangNhap
+                                                FROM taikhoan
+                                                WHERE TenLTK = 'sv'
+                                                AND TenDangNhap NOT IN (SELECT TenDangNhap FROM sinhvien)    
+                                                ORDER BY TenDangNhap
+                                            ";
+                                            $result = mysqli_query($conn, $sql);
+
+                                            while ($row = mysqli_fetch_assoc($result)) {
+                                                $choosingMa = $row['TenDangNhap'];
+                                        ?>
+                                            <option value="<?php echo htmlspecialchars($choosingMa); ?>"><?php echo htmlspecialchars($choosingMa); ?></option>
+                                        <?php } ?> 
+                                    </select>
                                 </div>
 
                                 <label for="hoten">Họ và Tên: </label>
@@ -239,10 +255,10 @@
                                     <input id="mail" type="email" placeholder="Email" class="form-control" name="txtMail">
                                 </div>
 
-                                <label for="tendangnhap">Tên Đăng Nhập: </label>
+                                <!-- <label for="tendangnhap">Tên Đăng Nhập: </label>
                                 <div class="form-group">
                                     <input id="tendangnhap" type="text" placeholder="Tên đăng nhập" class="form-control" name="txtTenDangNhap">
-                                </div>
+                                </div> -->
                             </div>
 
                             <div class="modal-footer">
