@@ -69,17 +69,28 @@
                                         $MaKhu = $row['MaKhu'];
                                         $MaPhong = $row['MaPhong'];
                                         $SoNguoiToiDa = $row['SoNguoiToiDa'];
-                                        $SoNguoiHienTai = $row['SoNguoiHienTai'];
+
+                                        // Sử dụng prepared statement để tránh SQL Injection
+                                        $stmt = $conn->prepare("SELECT COUNT(*) AS SoNguoiHienTai FROM sinhvien WHERE MaPhong = ?");
+                                        $stmt->bind_param("s", $MaPhong); // 'i' chỉ định rằng $MaPhong là kiểu integer
+                                        $stmt->execute();
+                                        $result_SoNguoiHienTai = $stmt->get_result();
+                                        $row_SoNguoiHienTai = $result_SoNguoiHienTai->fetch_assoc();
+
+                                        $SoNguoiHienTai = $row_SoNguoiHienTai['SoNguoiHienTai'];
                                         $ConTrong = $SoNguoiToiDa - $SoNguoiHienTai;
                                         $Gia = $row['Gia'];
+
+                                        // Đóng statement sau khi sử dụng
+                                        $stmt->close();
                                 ?>
                                         <tr>
-                                            <td><?php echo $row["MaKhu"]; ?></td>
+                                            <td><?php echo $MaKhu; ?></td>
                                             <td><?php echo $MaPhong; ?></td>
-                                            <td><?php echo $row["SoNguoiToiDa"]; ?></td>
-                                            <td><?php echo $row["SoNguoiHienTai"]; ?></td>
+                                            <td><?php echo $SoNguoiToiDa; ?></td>
+                                            <td><?php echo $SoNguoiHienTai; ?></td>
                                             <td><?php echo $ConTrong; ?></td>
-                                            <td><?php echo number_format($row["Gia"], 0, ',', '.'); ?> đ</td>
+                                            <td><?php echo number_format($Gia, 0, ',', '.'); ?> đ</td>
                                             <td>
                                                 <a class='badge bg-warning' data-bs-toggle='modal' data-bs-target='#inlineForm2_<?php echo $MaPhong; ?>' style='cursor: pointer;'>Sửa</a>
                                                 <a class='badge bg-danger' style='cursor: pointer;' onclick='confirmDelete("<?php echo $MaPhong; ?>")'>Xóa</a>
@@ -119,10 +130,6 @@
                                                             <label for='songuoitoida'>Số người tối đa: </label>
                                                             <div class='form-group'>
                                                                 <input id='songuoitoida' type='number' class='form-control' name='txtSoNguoiToiDa' value='<?php echo $SoNguoiToiDa; ?>'>
-                                                            </div>
-                                                            <label for='songuoihientai'>Số người hiện tại: </label>
-                                                            <div class='form-group'>
-                                                                <input id='songuoihientai' type='number' class='form-control' name='txtSoNguoiHienTai' value='<?php echo $SoNguoiHienTai; ?>'>
                                                             </div>
                                                             <label for='gia'>Giá: </label>
                                                             <div class='form-group'>

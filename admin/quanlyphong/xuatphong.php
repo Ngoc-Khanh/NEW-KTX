@@ -40,7 +40,10 @@ if ($result->num_rows > 0) {
         $sheet->setCellValue($col++ . $row, $row_data['MaKhu']);
         $sheet->setCellValue($col++ . $row, $row_data['MaPhong']);
         $sheet->setCellValue($col++ . $row, $row_data['SoNguoiToiDa']);
-        $sheet->setCellValue($col++ . $row, $row_data['SoNguoiHienTai']);
+        $sql1 = "SELECT COUNT(*) AS SoNguoiHienTai FROM sinhvien WHERE MaPhong = $row_data[MaPhong]";
+        $result1 = $conn->query($sql);
+        $row_data1 = $result1->fetch_assoc();
+        $sheet->setCellValue($col++ . $row, $row_data1['SoNguoiHienTai']);
 
         // Tính giá trị "Còn Trống" và thêm vào trang tính
         $conTrong = $row_data['SoNguoiToiDa'] - $row_data['SoNguoiHienTai'];
