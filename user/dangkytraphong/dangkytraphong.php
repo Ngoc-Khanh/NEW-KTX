@@ -12,7 +12,7 @@ if (isset($_SESSION['sv'])) {
           WHERE s.MaSV = '$maSV'";
     $result = mysqli_query($conn, $query);
 
-  
+
 
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
@@ -104,22 +104,24 @@ if (isset($_SESSION['sv'])) {
                             </h4>
                         </div>
                         <div class="card-content">
-    <div class="card-body">
-        <?php if ($tinhTrang != 'chờ duyệt trả' && $tinhTrang != 'đã trả') { ?>
-            <form action="" method="post">
-                <button type="submit" name="traPhong" class="btn btn-primary me-1 mb-1">Đăng ký trả phòng</button>
-            </form>
-        <?php } elseif ($tinhTrang == 'chờ duyệt trả') { ?>
-            <form action="" method="post">
-                <button type="submit" name="huyTraPhong" class="btn btn-danger me-1 mb-1">Huỷ đăng ký trả phòng</button>
-            </form>
-        <?php } elseif ($tinhTrang == 'đã trả') { ?>
-            <p><b>Bạn đã trả phòng thành công.</b></p>
-        <?php } else { ?>
-            <p><b>Bạn đã đăng ký trả phòng, vui lòng chờ xét duyệt.</b></p>
-        <?php } ?>
-    </div>
-</div>
+                            <div class="card-body">
+                                <?php if ($tinhTrang != 'chờ duyệt trả' && $tinhTrang != 'đã trả') { ?>
+                                    <form action="" method="post">
+                                        <button type="submit" name="traPhong" class="btn btn-primary me-1 mb-1">Đăng ký trả
+                                            phòng</button>
+                                    </form>
+                                <?php } elseif ($tinhTrang == 'chờ duyệt trả') { ?>
+                                    <form action="" method="post">
+                                        <button type="submit" name="huyTraPhong" class="btn btn-danger me-1 mb-1">Huỷ đăng
+                                            ký trả phòng</button>
+                                    </form>
+                                <?php } elseif ($tinhTrang == 'đã trả') { ?>
+                                    <p><b>Bạn đã trả phòng thành công.</b></p>
+                                <?php } else { ?>
+                                    <p><b>Bạn đã đăng ký trả phòng, vui lòng chờ xét duyệt.</b></p>
+                                <?php } ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

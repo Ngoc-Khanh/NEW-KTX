@@ -89,7 +89,7 @@
 										</td>
 										<td><a class='badge bg-info' href="index.php?action=chitietdangkyqldkp2&madk=<?php echo $row['MaDK']; ?>">Chi tiết</a></td>
 										<td><a class='badge bg-primary' href="index.php?action=duyetdangkyqldkp&madk=<?php echo  $row['MaDK'] ?>&MaSV=<?php echo $masv; ?>">Duyệt<i class="fas fa-check"></i> </a></td>
-										<td><a class='badge bg-danger' onClick='confirmDelete(<?php echo $row['MaDK']; ?>)' href='index.php?action=xoadangkyphong&requestId=<?php echo $row['MaDK']; ?>&MaSV=<?php echo $row['MaSV']; ?>'>Xóa</a></td>
+										<td><a class='badge bg-danger' onClick='confirmDelete(<?php echo $row['MaDK']; ?>)'>Xóa</a></td>
 										<!--<td><a href="danhmuc/main.php?view=ctdh&mahd=<?php echo $row['MaDK']; ?>" ><i class="fas fa-backspace"></i></a></td> -->
 									</tr>
 

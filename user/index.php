@@ -189,6 +189,9 @@
                             case 'xulydangky':
                                 include_once('./dangkyphong/xulydangky.php');
                                 break;
+                            // case 'huydangkyphong':
+                            //     include_once('./dangkyphong/huydangky.php');
+                            //     break;
 
                                 // ĐĂNG KÝ CHUYỂN PHÒNG
                             case 'dkchuyenphong':
