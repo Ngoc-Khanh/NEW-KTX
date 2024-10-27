@@ -2,7 +2,7 @@
     include_once('./config/database.php');
 
     if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['btnLuu'])) {
-        $sql = "INSERT INTO phong (MaKhu, MaPhong, SoNguoiToiDa, SoNguoiHienTai, Gia) VALUES ('" . $_POST['txtMaKhu'] . "','" . $_POST['txtMaPhong'] . "','" . $_POST['txtSoNguoiToiDa'] . "','" . $_POST['txtSoNguoiHienTai'] . "','" . $_POST['txtGia'] . "')";
+        $sql = "INSERT INTO phong (MaKhu, MaPhong, SoNguoiToiDa, Gia) VALUES ('" . $_POST['txtMaKhu'] . "','" . $_POST['txtMaPhong'] . "','" . $_POST['txtSoNguoiToiDa'] . "','" . $_POST['txtGia'] . "')";
         $result = mysqli_query($conn, $sql);
         if (!$result) {
             echo "Insert error";

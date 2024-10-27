@@ -6,11 +6,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && isset($_POST['btnLuu'])) {
     $MaKhu = $_POST['txtMaKhu'];
     $MaPhong = $_POST['txtMaPhong'];
     $SoNguoiToiDa = $_POST['txtSoNguoiToiDa'];
-    $SoNguoiHienTai = $_POST['txtSoNguoiHienTai'];
     $Gia = str_replace(array('.', ','), '', $_POST['txtGia']);
 
     // Câu truy vấn cập nhật
-    $sql = "UPDATE phong SET MaKhu='$MaKhu', SoNguoiToiDa='$SoNguoiToiDa', SoNguoiHienTai='$SoNguoiHienTai', Gia='$Gia' WHERE MaPhong='$MaPhong'";
+    $sql = "UPDATE phong SET MaKhu='$MaKhu', SoNguoiToiDa='$SoNguoiToiDa', Gia='$Gia' WHERE MaPhong='$MaPhong'";
 
     $result = mysqli_query($conn, $sql);
     if (!$result) {
