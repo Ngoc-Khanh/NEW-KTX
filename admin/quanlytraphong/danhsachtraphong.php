@@ -16,7 +16,6 @@
                 <div class="row">
                     <div class="col-12 col-md-6 order-md-1 order-last">
                         <h3>Danh sách trả phòng</h3>
-                        <!-- <p class="text-subtitle text-muted">Who does not love tables?</p> -->
                     </div>
                     <div class="col-12 col-md-6 order-md-2 order-first">
                         <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
@@ -32,9 +31,6 @@
             <section class="section">
                 <div class="card">
                     <div class="card-header">
-                        <!-- <h5 class="card-title">
-                            Danh sách sinh viên đã được duyệt đăng ký phòng
-                        </h5> -->
                     </div>
                     <div class="card-body">
                         <table class="table table-striped" id="table1">
@@ -51,46 +47,14 @@
                             <tbody>
                                 <?php
                                 include_once('./config/database.php');
-
-                                if (isset($_GET['requestId'])) {
-                                    $requestId = $_GET['requestId'];
-                                    if (isset($_GET['action']) && $_GET['action'] == 'cancel') {
-                                        // Xóa dòng dữ liệu nếu ấn nút huỷ
-                                        $deleteQuery = "DELETE FROM dangkyphong WHERE MaDK = '$requestId'";
-                                        if (mysqli_query($conn, $deleteQuery)) {
                                 ?>
-                                            <script type="text/javascript">
-                                                alert("Xóa thành công!");
-                                            </script>
-
-                                        <?php
-                                            date_default_timezone_set('Asia/Ho_Chi_Minh');
-                                            $date = getdate();
-                                            $ngay = $date['year'] . '-' . $date['mon'] . '-' . ($date['mday']) . ' ' . $date['hours'] . ':' . $date['minutes'] . ':' . $date['seconds'];
-                                            $ngayhientai = $date['year'] . '/' . $date['mon'] . '/' . ($date['mday']);
-                                            $td = 'Thông Báo Trả Phòng';
-                                            $nd = 'Yêu cầu trả phòng của bạn không được phê duyệt. Mọi thắc mắc vui lòng lên gặp Nhân viên Ký túc xá để biết thêm chi tiết. Xin cảm ơn !';
-                                            $masv = $_GET['MaSV'];
-
-                                            $ngayTB = $ngayhientai;
-                                            $sql2 = "INSERT INTO `thongbao`(`MaSV`, `TieuDe`, `NoiDung`) VALUES ('$masv', '$td', '$nd')";
-                                            $rs2 = mysqli_query($conn, $sql2);
-                                        } else {
-                                        ?>
-                                            <script type="text/javascript">
-                                                alert("Xóa không thành công!");
-                                            </script>
-                                        <?php
-                                        }
-                                    }
-                                }
-
+                                <?php
                                 $query = "SELECT MaDK, MaSV, MaPhong, NgayTraPhong, TinhTrang FROM dangkyphong where TinhTrang='chờ duyệt trả'or TinhTrang='đã trả'";
                                 $result = mysqli_query($conn, $query);
 
                                 if (mysqli_num_rows($result) > 0) {
                                     while ($row = mysqli_fetch_assoc($result)) {
-                                        ?>
+                                ?>
                                         <tr>
                                             <td><?php echo $row['MaDK']; ?></td>
                                             <td><?php echo $row['MaSV']; ?></td>
@@ -120,7 +84,7 @@
                                                 <?php
                                                 }
                                                 ?>
-                                                <a class='badge bg-danger' onClick='confirmDelete(<?php echo $row['MaDK']; ?>)' href='index.php?action=xoadangkytraphong&requestId=<?php echo $row['MaDK']; ?>&MaSV=<?php echo $row['MaSV']; ?>'>Xóa</a>
+                                                <a class='badge bg-danger' style='cursor: pointer;' onClick='confirmDelete(<?php echo $row['MaDK']; ?>)'>Xóa</a>
                                             </td>
                                         </tr>
                                 <?php
@@ -132,9 +96,9 @@
 
                                 <script>
                                     function confirmDelete(MaDK) {
-                                        if (confirm("Bạn có chắc chắn muốn xóa đăng ký trả phòng của sinh viên này không?")) {
+                                        if (confirm("Bạn có chắc chắn muốn xóa đăng ký trả phòng của sinh viên này không 0 ?")) {
                                             window.location.href = 'index.php?action=xoadangkytraphong&MaDK=' + MaDK + '&confirm=yes';
-                                        }
+                                        } 
                                     }
                                 </script>
                                 <?php
@@ -149,7 +113,7 @@
             <footer>
                 <div class="footer clearfix mb-0 text-muted">
                     <div class="float-start">
-                        <p>2025 &copy; Nhóm 6 | UTT</p>
+                        <p>2024 &copy; Nhóm 6 | UTT</p>
                     </div>
                     <div class="float-end">
                         <p>Design by <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>

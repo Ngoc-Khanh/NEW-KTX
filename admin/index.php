@@ -494,7 +494,7 @@ if (!isset($_SESSION['nv'])) {
                     <footer>
                         <div class="footer clearfix mb-0 text-muted">
                             <div class="float-start">
-                                <p>2025 &copy; Nhóm 6 | UTT</p>
+                                <p>2024 &copy; Nhóm 6 | UTT</p>
                             </div>
                             <div class="float-end">
                                 <p>Design by <span class="text-danger"><i class="bi bi-heart-fill icon-mid"></i></span>
