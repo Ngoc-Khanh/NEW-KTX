@@ -200,6 +200,7 @@
                                             .then(function(response) {
                                                 if (response.status === 200) {
                                                     alert('Hóa đơn đã được thu.');
+                                                    window.location.reload();
                                                 } else {
                                                     alert('Có lỗi xảy ra khi thu hóa đơn.');
                                                 }

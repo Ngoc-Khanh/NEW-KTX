@@ -19,7 +19,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'xoadangkytraphong' && isset($_
                 if ($updateStmt = $conn->prepare($updateQuery)) {
                     $updateStmt->bind_param("s", $requestId);
                     if ($updateStmt->execute()) {
-                        echo "<script>alert('Trạng thái đã được cập nhật thành đã duyệt!'); window.location.href = 'index.php?action=traphong';</script>";
+                        echo "<script>alert('Xóa thành công!'); window.location.href = 'index.php?action=traphong';</script>";
                     } else {
                         echo "Lỗi khi cập nhật: " . mysqli_error($conn);
                     }

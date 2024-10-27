@@ -32,17 +32,25 @@
       <div class="col-12">
         <div class="card">
           <div class="card-header">
-            <h4 class="card-title">Hóa đơn của
-              "<?php
-                  if (isset($_SESSION['sv'])) {
-                    $sv = $_SESSION['sv'];
-                    echo $sv['HoTen'];
-                ?>"
-            </h4>
+            <h4 class="card-title">Hóa đơn của "<?php echo $sv['HoTen']; ?>" </h4>
+            <style>
+              .chua-thu-bg {
+                background-color: #fcd2d7;
+                color: white;
+              }
+
+              .da-thu-bg {
+                background-color: #d3fcd2;
+                color: white;
+              }
+
+              .no-data {
+                text-align: center;
+                font-size: 1.5rem;
+                padding: 1rem;
+              }
+            </style>
             <div class="content">
-              <!-- <div class="card-body">
-                <p></p>
-              </div> -->
               <div class="table-responsive">
                 <table class="table table-hover mb-0 mt-4">
                   <thead>
@@ -57,30 +65,21 @@
                   </thead>
                   <tbody>
                     <?php
-                      $maPhong = $sv["MaPhong"];
+                    $maPhong = $sv["MaPhong"];
 
-                      $query = "
-                            SELECT hoadon.Thang, hoadon.TienDien, hoadon.TienNuoc, hoadon.TienMang, 
-                                  (hoadon.TienDien + hoadon.TienNuoc + hoadon.TienMang) AS TongTien, hoadon.TinhTrang
-                            FROM hoadon
-                            JOIN sinhvien ON hoadon.MaPhong = sinhvien.MaPhong
-                            WHERE sinhvien.MaPhong = '$maPhong'
-                        ";
+                    $query = "
+                        SELECT Thang, TienDien, TienNuoc, TienMang, 
+                              (TienDien + TienNuoc + TienMang) AS TongTien, TinhTrang
+                        FROM hoadon
+                        WHERE MaPhong = '$maPhong'
+                      ";
 
-                      $result = mysqli_query($conn, $query);
+                    $result = mysqli_query($conn, $query);
 
+                    if ($result && mysqli_num_rows($result) > 0) {
                       while ($row = mysqli_fetch_assoc($result)) {
-                      ?>
-                        <style>
-                          .chua-thu-bg {
-                            background-color: #fcd2d7;
-                            color: white;
-                          }
-                          .da-thu-bg {
-                            background-color: #d3fcd2;
-                            color: white;
-                          }
-                        </style>
+                    ?>
+
 
                         <tr class="<?php echo ($row['TinhTrang'] == 'ChuaThu') ? 'chua-thu-bg' : 'da-thu-bg'; ?>">
                           <td><?php echo $row['Thang']; ?></td>
@@ -92,12 +91,10 @@
                         </tr>
                     <?php
                       }
-                      mysqli_close($conn);
                     } else {
-                      header('location: index.php?action=login');
-                      exit();
+                      echo "<tr><td colspan='6' class='no-data'>Chưa có hóa đơn cho phòng này.</td></tr>";
                     }
-                  ?>
+                    ?>
                   </tbody>
                 </table>
               </div>
@@ -109,6 +106,5 @@
   </section>
 </div>
 
-<script src="assets/static/js/pages/horizontal-layout.js"></script>
 <script src="assets/extensions/apexcharts/apexcharts.min.js"></script>
 <script src="assets/static/js/pages/dashboard.js"></script>

@@ -169,14 +169,6 @@ if (!isset($_SESSION['sv'])) {
 
                 </header>
 
-                <!-- <div class="content-wrapper container">
-
-                    <div class="page-heading">
-                        <h3>Horizontal Layout</h3>
-                    </div>
-
-                </div> -->
-
                 <?php
                 if (isset($_GET['action'])) {
                     $action = $_GET['action'];
@@ -187,7 +179,7 @@ if (!isset($_SESSION['sv'])) {
 
                             // TRANG CHỦ
                         case 'trangchu':
-                            include('./trangchu/trangchu.php');
+                            header('Location: ./trangchu/trangchu.php');
                             break;
 
                             // PROFILES
@@ -225,6 +217,7 @@ if (!isset($_SESSION['sv'])) {
                             break;
                     }
                 } else {
+                    include('./trangchu/trangchu.php');
                 }
                 ?>
 
