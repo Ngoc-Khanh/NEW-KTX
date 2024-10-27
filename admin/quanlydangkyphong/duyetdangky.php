@@ -24,7 +24,11 @@
             $firstLetter = substr($maPhong, 0, 1); // Lấy chữ cái đầu tiên của $maPhong
             $sql1 = "UPDATE sinhvien SET MaPhong = '$maPhong', TenKhu = CONCAT('Khu ', '$firstLetter') WHERE MaSV = '$MaSV'";
             $result1 = mysqli_query($conn, $sql1);
-            header("location: index.php?action=dangkyphong");
+            // header("location: index.php?action=dangkyphong");
+            echo "<script>
+            alert('Duyệt thành công!');
+            window.location.href = 'index.php?action=dangkyphong';
+            </script>";
         }
     }
 ?>

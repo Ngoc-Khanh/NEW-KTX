@@ -8,7 +8,9 @@ if (isset($_GET['confirm']) && $_GET['confirm'] === 'yes') {
     if(!$result){
         echo "Delete error" .mysqli_error($conn);
     }else{
-        echo "Delete success";
+        echo "<script> alert('Xóa thành công!'); 
+             </script>";
+        echo "<script> window.location.href = 'index.php?action=dangkyphong&view=quanlydangkyphong';</script>";
     }
     // $requestId = $_GET['requestId'];
 
@@ -28,8 +30,7 @@ if (isset($_GET['confirm']) && $_GET['confirm'] === 'yes') {
     //     echo "Lỗi chuẩn bị truy vấn: " . mysqli_error($conn);
     // }
 }
-header("location: index.php?action=dangkyphong&view=quanlydangkyphong");
-// window.location.href = 'index.php?action=dangkyphong&view=quanlydangkyphong';
+// header("location: index.php?action=dangkyphong&view=quanlydangkyphong");
 
 mysqli_close($conn);
 ?>
