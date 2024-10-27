@@ -127,8 +127,8 @@
                                                             <label for='gioitinh'>Giới Tính: </label>
                                                             <div class='form-group'>
                                                                 <select class='form-select' name='txtGioiTinh' id='gioitinh'>
-                                                                    <option value='Nam' <?php echo ($GioiTinh === 'Nam' ? 'selected="selected"' : ''); ?>>Nam</option>
-                                                                    <option value='Nữ' <?php echo ($GioiTinh === 'Nữ' ? 'selected="selected"' : ''); ?>>Nữ</option>
+                                                                    <option value='nam' <?php echo ($GioiTinh === 'nam' ? 'selected="selected"' : ''); ?>>nam</option>
+                                                                    <option value='nữ' <?php echo ($GioiTinh === 'nữ' ? 'selected="selected"' : ''); ?>>nữ</option>
                                                                 </select>
                                                             </div>
 
@@ -219,8 +219,8 @@
                                 <label for="gioitinh">Giới Tính: </label>
                                 <div class="form-group">
                                     <select class="form-select" name="txtGioiTinh" id="gioitinh">
-                                        <option value="Nam">Nam</option>
-                                        <option value="Nữ">Nữ</option>
+                                        <option value="nam">nam</option>
+                                        <option value="nữ">nữ</option>
                                     </select>
                                 </div>
 
