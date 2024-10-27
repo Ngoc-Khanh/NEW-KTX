@@ -7,7 +7,7 @@ if (!isset($_SESSION['sv'])) {
     include_once('config/database.php');
 ?>
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="en" data-bs-theme="light">
 
     <head>
         <meta charset="UTF-8">
@@ -21,8 +21,8 @@ if (!isset($_SESSION['sv'])) {
 
 
 
-        <link rel="stylesheet" href="./assets/compiled/css/app.css">
-        <link rel="stylesheet" href="./assets/compiled/css/app-dark.css">
+        <!-- <link rel="stylesheet" href="./assets/compiled/css/app.css">
+        <link rel="stylesheet" href="./assets/compiled/css/app-dark.css"> -->
         <link rel="stylesheet" href="./assets/compiled/css/iconly.css">
         <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
 
@@ -35,7 +35,7 @@ if (!isset($_SESSION['sv'])) {
         </style>
     </head>
 
-    <body>
+    <body class="light">
         <script src="./assets/static/js/initTheme.js"></script>
         <div id="app">
             <div id="main" class="layout-horizontal">

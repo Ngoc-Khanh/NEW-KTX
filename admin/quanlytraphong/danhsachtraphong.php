@@ -3,6 +3,12 @@
 <link rel="stylesheet" href="./assets/compiled/css/app.css">
 <link rel="stylesheet" href="./assets/compiled/css/app-dark.css">
 
+<style>
+    .no-data {
+        text-align: center;
+    } 
+</style>
+
 <div id="app">
     <div id="main">
         <header class="mb-3">
@@ -90,7 +96,7 @@
                                 <?php
                                     }
                                 } else {
-                                    echo "<tr><td colspan='7'>Không có đăng ký nào.</td></tr>";
+                                    echo "<tr><td class='no-data' colspan='7'>Không có đăng ký nào.</td></tr>";
                                 }
                                 ?>
 
