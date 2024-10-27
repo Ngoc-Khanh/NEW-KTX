@@ -81,7 +81,7 @@
 										<td><?php echo $row['NgayDangKy']; ?></td>
 										<td><?php if ($row['TinhTrang'] == 'chưa duyệt') : ?>
 												<span class="badge bg-danger"><?php echo $row['TinhTrang']; ?></span>
-											<?php elseif ($row['TinhTrang'] == 'đã duyệt') : ?>
+											<?php elseif ($row['TinhTrang'] == 'đã duyệt') : ?>
 												<span class="badge bg-success"><?php echo $row['TinhTrang']; ?></span>
 											<?php else : ?>
 												<?php echo $row['TinhTrang']; ?>
