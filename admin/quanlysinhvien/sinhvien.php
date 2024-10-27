@@ -89,8 +89,8 @@
                                             <td><?php echo $DiaChi; ?></td>
                                             <td><?php echo $SDT; ?></td>
                                             <td><?php echo $Mail; ?></td>
-                                            <td><?php echo $MaPhong; ?></td>
-                                            <td><?php echo $TenKhu; ?></td>
+                                            <td class="<?php echo empty($MaPhong) ? 'text-danger' : $MaPhong; ?>"><?php echo empty($MaPhong) ? 'unknown' : $MaPhong; ?></td>
+                                            <td class="<?php echo empty($TenKhu) ? 'text-danger' : $TenKhu; ?>"><?php echo empty($TenKhu) ? 'unknown': $TenKhu; ?></td>
                                             <td><?php echo $TenDangNhap; ?></td>
                                             <td>
                                                 <a class='badge bg-warning' data-bs-toggle='modal' data-bs-target='#inlineForm2_<?php echo $MaSV; ?>' style='cursor: pointer;'>Sửa</a>

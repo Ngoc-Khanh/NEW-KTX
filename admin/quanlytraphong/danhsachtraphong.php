@@ -68,9 +68,9 @@
                                             <td><?php echo $row['NgayTraPhong']; ?></td>
                                             <td>
                                                 <?php
-                                                if ($row['TinhTrang'] == 'chưa duyệt') {
+                                                if ($row['TinhTrang'] == 'chờ duyệt trả') {
                                                     echo '<span class="badge bg-danger">' . $row['TinhTrang'] . '</span>';
-                                                } elseif ($row['TinhTrang'] == 'đã duyệt') {
+                                                } elseif ($row['TinhTrang'] == 'đã trả') {
                                                     echo '<span class="badge bg-success">' . $row['TinhTrang'] . '</span>';
                                                 } else {
                                                     echo $row['TinhTrang'];

@@ -12,6 +12,7 @@ if (isset($_SESSION['sv'])) {
           WHERE s.MaSV = '$maSV'
           ORDER BY d.NgayDangKy DESC, d.MaDK DESC
           LIMIT 1";
+          
     $result = mysqli_query($conn, $query);
 
 
