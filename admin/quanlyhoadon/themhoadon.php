@@ -44,26 +44,39 @@
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="tienDien">Tiền điện</label>
-                                                    <input type="number" id="tienDien" class="form-control" name="tienDien" placeholder="Tiền điện">
+                                                    <input type="number" id="tienDien" class="form-control" name="tienDien" placeholder="Tiền điện" min="10000" step="10000">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="tienNuoc">Tiền nước</label>
-                                                    <input type="number" id="tienNuoc" class="form-control" name="tienNuoc" placeholder="Tiền nước">
+                                                    <input type="number" id="tienNuoc" class="form-control" name="tienNuoc" placeholder="Tiền nước" min="10000" step="10000">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
                                                 <div class="form-group">
                                                     <label for="tienMang">Tiền mạng</label>
-                                                    <input type="number" id="tienMang" class="form-control" name="tienMang" placeholder="Tiền mạng">
+                                                    <input type="number" id="tienMang" class="form-control" name="tienMang" placeholder="Tiền mạng" min="10000" step="10000">
                                                 </div>
                                             </div>
                                             <div class="col-md-6 col-12">
-                                                <div class="form-group">
+                                                <fieldset class="form-group">
                                                     <label for="thang">Tháng</label>
-                                                    <input type="text" id="thang" class="form-control" name="thang" placeholder="Tháng">
-                                                </div>
+                                                    <select class="form-select" name="thang" id="thang">
+                                                        <option value="1">Tháng 1</option>
+                                                        <option value="2">Tháng 2</option>
+                                                        <option value="3">Tháng 3</option>
+                                                        <option value="4">Tháng 4</option>
+                                                        <option value="5">Tháng 5</option>
+                                                        <option value="6">Tháng 6</option>
+                                                        <option value="7">Tháng 7</option>
+                                                        <option value="8">Tháng 8</option>
+                                                        <option value="9">Tháng 9</option>
+                                                        <option value="10">Tháng 10</option>
+                                                        <option value="11">Tháng 11</option>
+                                                        <option value="12">Tháng 12</option>
+                                                    </select>
+                                                </fieldset>
                                             </div>
                                             <div class="col-12 d-flex justify-content-end">
                                                 <button type="submit" name='submit' class="btn btn-primary me-1 mb-1">Thêm</button>

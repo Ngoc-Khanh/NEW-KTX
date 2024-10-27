@@ -1,10 +1,10 @@
 <?php
-    ob_start();
-    session_start();
-    if (!isset($_SESSION['sv'])) {
-        header('location: ./xacthuc/dangnhap.php');
-    } else {
-        include_once('config/database.php');
+ob_start();
+session_start();
+if (!isset($_SESSION['sv'])) {
+    header('location: ./xacthuc/dangnhap.php');
+} else {
+    include_once('config/database.php');
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -56,18 +56,18 @@
                                         <div class="text">
                                             <h6 class="user-dropdown-name">
                                                 <?php
-                                                    if (isset($_SESSION["sv"])) {
-                                                        $sv = $_SESSION["sv"];
-                                                        echo $sv["HoTen"];
-                                                    }
+                                                if (isset($_SESSION["sv"])) {
+                                                    $sv = $_SESSION["sv"];
+                                                    echo $sv["HoTen"];
+                                                }
                                                 ?>
                                             </h6>
                                             <p class="user-dropdown-status text-sm text-muted">
                                                 <?php
-                                                    if (isset($_SESSION["sv"])) {
-                                                        $sv = $_SESSION["sv"];
-                                                        echo $sv["TenDangNhap"];
-                                                    }
+                                                if (isset($_SESSION["sv"])) {
+                                                    $sv = $_SESSION["sv"];
+                                                    echo $sv["TenDangNhap"];
+                                                }
                                                 ?>
                                             </p>
                                         </div>
@@ -91,32 +91,36 @@
                     </div>
 
                     <?php
-                        $action = $_GET['action'] ?? '';
+                    $action = $_GET['action'] ?? '';
 
-                        // Array to hold active classes
-                        $active_classes = [
-                            'trangchu_active' => '',
-                            'dkphong_active' => '',
-                            'dkchuyenphong_active' => '',
-                            'dktraphong_active' => ''
-                        ];
+                    // Array to hold active classes
+                    $active_classes = [
+                        'trangchu_active' => '',
+                        'dkphong_active' => '',
+                        'dkchuyenphong_active' => '',
+                        'dktraphong_active' => '',
+                        'hoadon_active' => ''
+                    ];
 
-                        // Assign active class based on action
-                        switch ($action) {
-                            case '':
-                                $active_classes['trangchu_active'] = 'active';
-                                break;
-                            case 'dkphong':
-                            case 'xulydangky':
-                                $active_classes['dkphong_active'] = 'active';
-                                break;
-                            case 'dktraphong':
-                                $active_classes['dktraphong_active'] = 'active';
-                                break;
-                        }
+                    // Assign active class based on action
+                    switch ($action) {
+                        case '':
+                            $active_classes['trangchu_active'] = 'active';
+                            break;
+                        case 'dkphong':
+                        case 'xulydangky':
+                            $active_classes['dkphong_active'] = 'active';
+                            break;
+                        case 'dktraphong':
+                            $active_classes['dktraphong_active'] = 'active';
+                            break;
+                        case 'hoadon':
+                            $active_classes['hoadon_active'] = 'active';
+                            break;
+                    }
 
-                        // Extract variables for use in HTML
-                        extract($active_classes);
+                    // Extract variables for use in HTML
+                    extract($active_classes);
                     ?>
 
                     <nav class="main-navbar">
@@ -141,12 +145,19 @@
                                     </a>
                                 </li>
 
-                                
+
 
                                 <li
                                     class="menu-item <?php echo $dktraphong_active; ?> ">
                                     <a href="index.php?action=dktraphong" class='menu-link'>
                                         <span><i class="bi bi-journal-check"></i> Đăng ký Trả Phòng</span>
+                                    </a>
+                                </li>
+
+                                <li
+                                    class="menu-item <?php echo $hoadon_active; ?> ">
+                                    <a href="index.php?action=hoadon" class='menu-link'>
+                                        <span><i class="bi bi-wallet"></i> Xem hóa đơn</span>
                                     </a>
                                 </li>
 
@@ -167,47 +178,54 @@
                 </div> -->
 
                 <?php
-                    if (isset($_GET['action'])) {
-                        $action = $_GET['action'];
+                if (isset($_GET['action'])) {
+                    $action = $_GET['action'];
 
-                        switch ($action) {
-                            case 'logout':
-                                header('Location: ./taikhoan/dangxuat.php');
+                    switch ($action) {
+                        case 'logout':
+                            header('Location: ./taikhoan/dangxuat.php');
 
-                                // PROFILES
-                            case 'thongtincanhan':
-                                include('./taikhoan/thongtincanhan.php');
-                                break;
-                            case 'doimatkhau':
-                                include('./taikhoan/doimatkhau.php');
-                                break;
+                            // TRANG CHỦ
+                        case 'trangchu':
+                            include('./trangchu/trangchu.php');
+                            break;
 
-                                // ĐĂNG KÝ PHÒNG
-                            case 'dkphong':
-                                include('./dangkyphong/dangkyphong.php');
-                                break;
-                            case 'xulydangky':
-                                include_once('./dangkyphong/xulydangky.php');
-                                break;
-                            // case 'huydangkyphong':
-                            //     include_once('./dangkyphong/huydangky.php');
-                            //     break;
+                            // PROFILES
+                        case 'thongtincanhan':
+                            include('./taikhoan/thongtincanhan.php');
+                            break;
+                        case 'doimatkhau':
+                            include('./taikhoan/doimatkhau.php');
+                            break;
 
-                                // ĐĂNG KÝ CHUYỂN PHÒNG
-                            case 'dkchuyenphong':
-                                include('./dangkychuyenphong/dangkychuyenphong.php');
-                                break;
+                            // ĐĂNG KÝ PHÒNG
+                        case 'dkphong':
+                            include('./dangkyphong/dangkyphong.php');
+                            break;
+                        case 'xulydangky':
+                            include_once('./dangkyphong/xulydangky.php');
+                            break;
 
-                                // ĐĂNG KÝ TRẢ PHÒNG
-                            case 'dktraphong':
-                                include('./dangkytraphong/dangkytraphong.php');
-                                break;
-                            default:
-                                break;
-                        }
-                    } else {
+                            // ĐĂNG KÝ CHUYỂN PHÒNG
+                        case 'dkchuyenphong':
+                            include('./dangkychuyenphong/dangkychuyenphong.php');
+                            break;
 
+                            // ĐĂNG KÝ TRẢ PHÒNG
+                        case 'dktraphong':
+                            include('./dangkytraphong/dangkytraphong.php');
+                            break;
+
+                            // HÓA ĐƠN
+                        case 'hoadon':
+                            include('./hoadon/xemhoadon.php');
+                            break;
+
+                        default:
+                            break;
                     }
+                } else {
+                }
                 ?>
 
                 <footer>

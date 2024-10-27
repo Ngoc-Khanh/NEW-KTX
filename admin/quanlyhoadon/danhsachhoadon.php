@@ -60,21 +60,22 @@
                                     }
 
                                     $result = $conn->query($sql);
-
                                     if ($result->num_rows > 0) {
-                                        while ($row = $result->fetch_assoc()) {
-                                            echo "<tr>";
-                                            echo "<td>" . $row['MaPhong'] . "</td>";
-                                            echo "<td>" . $row['MaKhu'] . "</td>";
-                                            echo "<td>" . $row['SoNguoiToiDa'] . "</td>";
-                                            echo "<td>" . $row['SoNguoiHienTai'] . "</td>";
-                                            echo "<td>" . number_format($row['Gia'], 0, ',', '.') . " đ</td>";
-                                            echo "<td><a class='badge bg-secondary' href='index.php?action=themhoadon&MaPhong=" . $row['MaPhong'] . "'>Hóa đơn</a></td>";
-                                            echo "</tr>";
-                                        }
-                                    } else {
-                                        echo "Không có dữ liệu phòng.";
-                                    }
+                                        while ($row = $result->fetch_assoc()) { ?>
+                                            <tr>
+                                                <td><?php echo $row['MaPhong']; ?></td>
+                                                <td><?php echo $row['MaKhu']; ?></td>
+                                                <td><?php echo $row['SoNguoiToiDa']; ?></td>
+                                                <td><?php echo $row['SoNguoiHienTai']; ?></td>
+                                                <td><?php echo number_format($row['Gia'], 0, ',', '.'); ?> đ</td>
+                                                <td><a class='badge bg-secondary' href='index.php?action=themhoadon&MaPhong=<?php echo $row['MaPhong']; ?>'>Hóa đơn</a></td>
+                                            </tr>
+                                        <?php }
+                                    } else { ?>
+                                        <tr>
+                                            <td colspan="6">Không có dữ liệu phòng.</td>
+                                        </tr>
+                                    <?php }
 
                                     if (isset($_POST['search'])) { ?>
                                         <a href="index.php?action=hoadon"><button class="btn-xuatexcel"><b>Quay Lại</b></button></a>
