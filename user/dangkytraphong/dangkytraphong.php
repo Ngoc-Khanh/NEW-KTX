@@ -131,11 +131,13 @@ if (isset($_SESSION['sv'])) {
                             <div class="card-body">
                                 <?php if ($tinhTrang != 'chờ duyệt trả' && $tinhTrang != 'đã trả') { ?>
                                     <form action="" method="post">
-                                        <button type="submit" name="traPhong" class="btn btn-primary me-1 mb-1">Đăng ký trả phòng</button>
+                                        <button type="submit" name="traPhong" class="btn btn-primary me-1 mb-1">Đăng ký trả
+                                            phòng</button>
                                     </form>
                                 <?php } elseif ($tinhTrang == 'chờ duyệt trả') { ?>
                                     <form action="" method="post">
-                                        <button type="submit" name="huyTraPhong" class="btn btn-danger me-1 mb-1">Huỷ đăng ký trả phòng</button>
+                                        <button type="submit" name="huyTraPhong" class="btn btn-danger me-1 mb-1">Huỷ đăng
+                                            ký trả phòng</button>
                                     </form>
                                 <?php } elseif ($tinhTrang == 'đã trả') { ?>
                                     <p><b>Bạn đã trả phòng thành công.</b></p>

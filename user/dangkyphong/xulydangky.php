@@ -44,7 +44,17 @@
             $_SESSION['message'] = 'Vui lòng chọn số người và khu phòng!';
         }
     }
-
+    if (isset($_POST['huydangkyPhong'])) {
+        $cancelQuery = "DELETE FROM dangkyphong WHERE MaSV = '$maSV'"; // Xóa yêu cầu đăng ký phòng 
+        if (mysqli_query($conn, $cancelQuery)) {
+            echo '<script>alert("Bạn đã hủy đăng ký phòng thành công.");</script>';
+            echo "<script>
+                    window.location.href = 'index.php?action=dkphong';
+                  </script>";
+        } else {
+            echo "Lỗi khi huỷ đăng ký phòng: " . mysqli_error($conn);
+        }
+    }
     $conn->close();
     header('location: index.php?action=dkphong');
     exit(); // Dừng việc thực thi mã PHP sau khi điều hướng
