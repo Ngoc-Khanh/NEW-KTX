@@ -5,14 +5,15 @@ if (isset($_SESSION['sv'])) {
 
     // Truy vấn lấy thông tin sinh viên và trạng thái phòng
     $query = "SELECT s.HoTen, 
-                 IFNULL(s.MaPhong, 'Không có phòng') AS MaPhong, 
+                 IFNULL(d.MaPhong, 'Không có phòng') AS MaPhong, 
                  IFNULL(d.TinhTrang, 'Chưa đăng ký') AS TinhTrang
           FROM sinhvien AS s
           LEFT JOIN dangkyphong AS d ON s.MaSV = d.MaSV
-          WHERE s.MaSV = '$maSV'";
+          WHERE s.MaSV = '$maSV'
+          ORDER BY d.NgayDangKy DESC, d.MaDK DESC
+          LIMIT 1";
     $result = mysqli_query($conn, $query);
 
-  
 
     if (mysqli_num_rows($result) > 0) {
         $row = mysqli_fetch_assoc($result);
@@ -24,33 +25,44 @@ if (isset($_SESSION['sv'])) {
         exit();
     }
 
-    // Xử lý khi sinh viên đăng ký trả phòng
-    if (isset($_POST['traPhong'])) {
-        if ($maPhong == 'Không có') {
-            echo '<script>alert("Bạn đang không có phòng, vui lòng đăng ký phòng!");</script>';
-        } else {
-            $updateQuery = "UPDATE dangkyphong SET TinhTrang = 'chờ duyệt trả', NgayTraPhong = CURDATE() WHERE MaSV = '$maSV'";
-            if (mysqli_query($conn, $updateQuery)) {
-                echo '<script>alert("Bạn đã đăng ký trả phòng thành công. Hãy chờ ban quản lý ktx duyệt yêu cầu của bạn.");</script>';
-                $tinhTrang = 'chờ duyệt trả'; // Cập nhật trạng thái
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if (isset($_POST['traPhong'])) {
+            // Xử lý đăng ký trả phòng
+            if ($maPhong == 'Không có phòng') {
+                $_SESSION['message'] = "Bạn đang không có phòng, vui lòng đăng ký phòng!";
             } else {
-                echo "Lỗi khi cập nhật thông tin trả phòng: " . mysqli_error($conn);
+                $updateQuery = "UPDATE dangkyphong SET TinhTrang = 'chờ duyệt trả', NgayTraPhong = CURDATE() WHERE MaSV = '$maSV'";
+                if (mysqli_query($conn, $updateQuery)) {
+                    $_SESSION['message'] = "Bạn đã đăng ký trả phòng thành công. Hãy chờ ban quản lý ktx duyệt yêu cầu của bạn.";
+                } else {
+                    $_SESSION['message'] = "Lỗi khi cập nhật thông tin trả phòng: " . mysqli_error($conn);
+                }
             }
+            header('Location: index.php?action=dktraphong');
+            exit();
+        }
+    
+        if (isset($_POST['huyTraPhong'])) {
+            // Xử lý huỷ đăng ký trả phòng
+            $cancelQuery = "UPDATE dangkyphong SET TinhTrang = 'đã duyệt' WHERE MaSV = '$maSV'";
+            if (mysqli_query($conn, $cancelQuery)) {
+                $_SESSION['message'] = "Bạn đã hủy đăng ký trả phòng thành công.";
+                $tinhTrang = 'đã duyệt';
+            } else {
+                $_SESSION['message'] = "Lỗi khi huỷ đăng ký trả phòng: " . mysqli_error($conn);
+            }
+            header('Location: index.php?action=dktraphong');
+            exit();
         }
     }
-
-    // Xử lý khi sinh viên huỷ đăng ký trả phòng
-    if (isset($_POST['huyTraPhong'])) {
-        $cancelQuery = "UPDATE dangkyphong SET TinhTrang = 'đã duyệt' WHERE MaSV = '$maSV'"; // Trạng thái quay về lúc duyệt khi đăng ký ở, tức là đang ở 
-        if (mysqli_query($conn, $cancelQuery)) {
-            echo '<script>alert("Bạn đã hủy đăng ký trả phòng thành công.");</script>';
-            $tinhTrang = 'đã duyệt'; // Cập nhật trạng thái
-        } else {
-            echo "Lỗi khi huỷ đăng ký trả phòng: " . mysqli_error($conn);
-        }
+    
+    // Hiển thị thông báo nếu có
+    if (isset($_SESSION['message'])) {
+        echo '<script>alert("' . $_SESSION['message'] . '");</script>';
+        unset($_SESSION['message']);
     }
 } else {
-    header('location: index.php?action=login');
+    header('location: index.php?action=login'); //ktra đăng nhập
     exit();
 }
 ?>
@@ -88,8 +100,20 @@ if (isset($_SESSION['sv'])) {
                                 <ul class="list-group">
                                     <li class="list-group-item active">Mã sinh viên: <b><?php echo $maSV; ?></b></li>
                                     <li class="list-group-item">Họ tên: <b><?php echo $hoTen; ?></b></li>
-                                    <li class="list-group-item">Phòng đang ở: <b><?php echo $maPhong; ?></b></li>
+                                    <li class="list-group-item">Phòng đang ở:
+                                        <b>
+                                            <?php
+                                            // Kiểm tra trạng thái, nếu đã trả thì hiển thị "Không có phòng"
+                                            if ($tinhTrang == 'đã trả') {
+                                                echo 'Không có phòng';
+                                            } else {
+                                                echo $maPhong; // Nếu chưa trả, hiển thị Mã phòng
+                                            }
+                                            ?>
+                                        </b>
+                                    </li>
                                     <li class="list-group-item">Trạng thái: <b><?php echo $tinhTrang; ?></b></li>
+
                                 </ul>
                             </div>
                         </div>
@@ -104,22 +128,22 @@ if (isset($_SESSION['sv'])) {
                             </h4>
                         </div>
                         <div class="card-content">
-    <div class="card-body">
-        <?php if ($tinhTrang != 'chờ duyệt trả' && $tinhTrang != 'đã trả') { ?>
-            <form action="" method="post">
-                <button type="submit" name="traPhong" class="btn btn-primary me-1 mb-1">Đăng ký trả phòng</button>
-            </form>
-        <?php } elseif ($tinhTrang == 'chờ duyệt trả') { ?>
-            <form action="" method="post">
-                <button type="submit" name="huyTraPhong" class="btn btn-danger me-1 mb-1">Huỷ đăng ký trả phòng</button>
-            </form>
-        <?php } elseif ($tinhTrang == 'đã trả') { ?>
-            <p><b>Bạn đã trả phòng thành công.</b></p>
-        <?php } else { ?>
-            <p><b>Bạn đã đăng ký trả phòng, vui lòng chờ xét duyệt.</b></p>
-        <?php } ?>
-    </div>
-</div>
+                            <div class="card-body">
+                                <?php if ($tinhTrang != 'chờ duyệt trả' && $tinhTrang != 'đã trả') { ?>
+                                    <form action="" method="post">
+                                        <button type="submit" name="traPhong" class="btn btn-primary me-1 mb-1">Đăng ký trả phòng</button>
+                                    </form>
+                                <?php } elseif ($tinhTrang == 'chờ duyệt trả') { ?>
+                                    <form action="" method="post">
+                                        <button type="submit" name="huyTraPhong" class="btn btn-danger me-1 mb-1">Huỷ đăng ký trả phòng</button>
+                                    </form>
+                                <?php } elseif ($tinhTrang == 'đã trả') { ?>
+                                    <p><b>Bạn đã trả phòng thành công.</b></p>
+                                <?php } else { ?>
+                                    <p><b>Bạn đã đăng ký trả phòng, vui lòng chờ xét duyệt.</b></p>
+                                <?php } ?>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

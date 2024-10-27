@@ -1,7 +1,7 @@
 <?php
 	include_once('./config/database.php');
 
-	$sql = "SELECT * FROM dangkyphong WHERE TinhTrang = 'chờ duyệt trả' OR TinhTrang = 'chưa duyệt'";
+	$sql = "SELECT * FROM dangkyphong WHERE TinhTrang = 'chưa duyệt'";
 	$result = mysqli_query($conn, $sql);
 ?>
 
@@ -54,7 +54,7 @@
 									<th>Ngày Đăng Ký</th>
 									<th>Tình Trạng</th>
 									<th>Chi tiết</th>
-									<th colspan="1" class="badge-danger">Thao tác</th>
+									<th colspan="2" class="badge-danger">Thao tác</th>
 									<!-- <span class="badge bg-success">Active</span> 
 										<span class="badge bg-danger">Inactive</span> -->
 								</tr>
@@ -89,10 +89,19 @@
 										</td>
 										<td><a class='badge bg-info' href="index.php?action=chitietdangkyqldkp2&madk=<?php echo $row['MaDK']; ?>">Chi tiết</a></td>
 										<td><a class='badge bg-primary' href="index.php?action=duyetdangkyqldkp&madk=<?php echo  $row['MaDK'] ?>&MaSV=<?php echo $masv; ?>">Duyệt<i class="fas fa-check"></i> </a></td>
+										<td><a class='badge bg-danger' onClick='confirmDelete(<?php echo $row['MaDK']; ?>)' href='index.php?action=xoadangkyphong&requestId=<?php echo $row['MaDK']; ?>&MaSV=<?php echo $row['MaSV']; ?>'>Xóa</a></td>
 										<!--<td><a href="danhmuc/main.php?view=ctdh&mahd=<?php echo $row['MaDK']; ?>" ><i class="fas fa-backspace"></i></a></td> -->
 									</tr>
 
 								<?php } ?>
+
+								<script>
+                                    function confirmDelete(MaDK) {
+                                        if (confirm("Bạn có chắc chắn muốn xóa đăng ký phòng của sinh viên này không?")) {
+                                            window.location.href = 'index.php?action=xoadangkyphong&MaDK=' + MaDK + '&confirm=yes';
+                                        }
+                                    }
+                                </script>
 							</tbody>
 						</table>
 					</div>

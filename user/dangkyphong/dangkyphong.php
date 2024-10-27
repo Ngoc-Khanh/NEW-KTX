@@ -44,6 +44,7 @@
                                         $row = mysqli_fetch_assoc($result);
                                         $hoTen = $row['HoTen'];
                                         $gioiTinh = $row['GioiTinh'];
+                                        $maPhong = $row['MaPhong'];
                                     }
 
                                     // Xác định danh sách khu dựa vào giới tính
@@ -123,7 +124,17 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-12 d-flex justify-content-end">
-                                            <button type="submit" class="btn btn-primary me-1 mb-1">Đăng ký phòng</button>
+                                        <?php if (is_null($maPhong)) { ?>
+                                            <form action="" method="post">
+                                            <button type="submit" name="dangkyPhong" class="btn btn-primary me-1 mb-1">Đăng ký phòng</button>
+                                            </form>
+                                        <?php } else if ($tinhTrang == 'chưa duyệt') { ?>
+                                            <form action="" method="post">
+                                            <button type="submit" name="huydangkyPhong" class="btn btn-danger me-1 mb-1">Huỷ đăng ký phòng</button>
+                                            </form>
+                                        <?php }?>
+         
+                                            <!-- <button type="submit" class="btn btn-primary me-1 mb-1">Đăng ký phòng</button> -->
                                             <button type="reset" class="btn btn-light-secondary me-1 mb-1">Reset</button>
                                         </div>
                                     </div>
