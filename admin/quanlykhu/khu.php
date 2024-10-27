@@ -99,12 +99,12 @@
                                                             <label for='gioitinh'>Giới tính: </label>
                                                             <div class='form-group'>
                                                                 <div class='form-check'>
-                                                                    <input class='form-check-input' type='radio' name='txtGioiTinh' value='Nam' id='flexRadioDefault1_<?php echo $MaKhu; ?>' <?php echo ($GioiTinh == "Nam" ? "checked" : ""); ?>>
-                                                                    <label class='form-check-label' for='flexRadioDefault1_<?php echo $MaKhu; ?>'>Nam</label>
+                                                                    <input class='form-check-input' type='radio' name='txtGioiTinh' value='nam' id='flexRadioDefault1_<?php echo $MaKhu; ?>' <?php echo ($GioiTinh == "nam" ? "checked" : ""); ?>>
+                                                                    <label class='form-check-label' for='flexRadioDefault1_<?php echo $MaKhu; ?>'>nam</label>
                                                                 </div>
                                                                 <div class='form-check'>
-                                                                    <input class='form-check-input' type='radio' name='txtGioiTinh' value='Nữ' id='flexRadioDefault2_<?php echo $MaKhu; ?>' <?php echo ($GioiTinh == "Nữ" ? "checked" : ""); ?>>
-                                                                    <label class='form-check-label' for='flexRadioDefault2_<?php echo $MaKhu; ?>'>Nữ</label>
+                                                                    <input class='form-check-input' type='radio' name='txtGioiTinh' value='nữ' id='flexRadioDefault2_<?php echo $MaKhu; ?>' <?php echo ($GioiTinh == "nữ" ? "checked" : ""); ?>>
+                                                                    <label class='form-check-label' for='flexRadioDefault2_<?php echo $MaKhu; ?>'>nữ</label>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -168,12 +168,12 @@
                                 <label for="gioitinh">Giới tính: </label>
                                 <div class="form-group">
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="txtGioiTinh" value="Nam" id="flexRadioDefault1">
-                                        <label class="form-check-label" for="flexRadioDefault1">Nam</label>
+                                        <input class="form-check-input" type="radio" name="txtGioiTinh" value="nam" id="flexRadioDefault1">
+                                        <label class="form-check-label" for="flexRadioDefault1">nam</label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="radio" name="txtGioiTinh" value="Nữ" id="flexRadioDefault2">
-                                        <label class="form-check-label" for="flexRadioDefault2">Nữ</label>
+                                        <input class="form-check-input" type="radio" name="txtGioiTinh" value="nữ" id="flexRadioDefault2">
+                                        <label class="form-check-label" for="flexRadioDefault2">nữ</label>
                                     </div>
                                 </div>
                             </div>

@@ -77,7 +77,7 @@
                                                         </div>
                                                         <div class='col-md-8 form-group'>
                                                             <input type='text' id='contact-info-horizontal' class='form-control' name='contact'
-                                                                value='" . (($rowSinhVien['GioiTinh'] == 'nữ') ? 'Nữ' : 'Nam') . "' disabled>
+                                                                value='" . (($rowSinhVien['GioiTinh'] == 'nữ') ? 'Nữ' : 'nam') . "' disabled>
                                                         </div>
                                                         <div class='col-md-4'>
                                                             <label for='password-horizontal'>Ngày Sinh</label>
