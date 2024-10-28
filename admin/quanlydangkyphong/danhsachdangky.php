@@ -76,7 +76,7 @@
 									<tr>
 										<td><?php echo $row['MaDK']; ?></td>
 										<td><?php echo $row['MaSV']; ?></td>
-										<td><?php echo $row['MaNV']; ?></td>
+										<td class="<?php echo empty($MaNV) ? 'text-danger' : $MaNV; ?>"><?php echo empty($MaNV) ? 'unknown' : $MaNV; ?></td>
 										<td><?php echo $row['MaPhong']; ?></td>
 										<td><?php echo $row['NgayDangKy']; ?></td>
 										<td><?php if ($row['TinhTrang'] == 'chưa duyệt') : ?>
